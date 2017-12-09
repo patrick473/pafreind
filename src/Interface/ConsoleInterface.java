@@ -24,7 +24,7 @@ public class ConsoleInterface {
                 } else if (s.startsWith("new wagon ")) {
                     System.out.println(s.substring(10));
                     // new wagon type with standard amount of seats using controller
-                } else if (s.startsWith("add ")) {
+                } else if (s.startsWith("add ")&& "to".equals(splitcheck[2])) {
                     System.out.println(s.substring(4));
                     System.out.println(splitcheck[3]);
                     // adding existing wagon to existing train
