@@ -6,6 +6,7 @@ public class Train  {
 
     Integer trainID;
     ArrayList<Component> components;
+    String name;
 
     public Train(Integer trainID, ArrayList<Component> components) {
         this.trainID = trainID;
