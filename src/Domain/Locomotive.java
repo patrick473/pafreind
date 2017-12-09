@@ -4,8 +4,8 @@ public class Locomotive extends Component {
 
         Integer locomotiveID;
 
-    public Locomotive(String name, Integer position, Integer locomotiveID) {
-        super(name, position);
+    public Locomotive(String name, Integer locomotiveID) {
+        super(name);
         this.locomotiveID = locomotiveID;
     }
 
@@ -17,4 +17,11 @@ public class Locomotive extends Component {
         this.locomotiveID = locomotiveID;
     }
 
+    @Override
+    public String toString() {
+        return "Locomotive{" +
+                "locomotiveID=" + locomotiveID +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
