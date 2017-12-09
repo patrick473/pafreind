@@ -1,5 +1,7 @@
 package Interface;
 
+import java.util.function.UnaryOperator;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +15,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
@@ -20,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 
 public class Main extends Application {
 
@@ -75,19 +80,36 @@ public class Main extends Application {
         Label LocomotiveNameL = new Label("Locomotive name:");
         grid.add(LocomotiveNameL, LocomotiveNameColumn, LocomotiveNameRow);
 
-        TextField LocomotiveNameT = new PasswordField();
+        TextField LocomotiveNameT = new TextField();
         grid.add(LocomotiveNameT, LocomotiveNameColumn+1, LocomotiveNameRow);
 
         Label WagonNameL = new Label("Wagon name:");
         grid.add(WagonNameL, WagonNameColumn, WagonNameRow);
 
-        TextField WagonNameT = new PasswordField();
-        grid.add(WagonNameT, WagonNameColumn+1, WagonNameRow);
+        TextField WagonNameT = new TextField();
+        grid.add(WagonNameT,WagonNameColumn+1, WagonNameRow);
+        
+        Label WagonSeatL = new Label("Amount of seats:");
+        grid.add(WagonSeatL,WagonNameColumn+2, WagonNameRow);
+
+        TextField WagonSeatT = new TextField();
+        grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
+        
+        UnaryOperator<Change> integerFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("-?([1-9][0-9]*)?")) { 
+                return change;
+            }
+            return null;
+        };
+
+        WagonSeatT.setTextFormatter(
+            new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
         
         Button BtnWagon = new Button("Add Wagon");
         HBox HbBtnWagon = new HBox(10);
         HbBtnWagon.getChildren().add(BtnWagon);
-        grid.add(HbBtnWagon, WagonNameColumn+3, WagonNameRow);
+        grid.add(HbBtnWagon,WagonNameColumn+4, WagonNameRow);
         
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
         	 
@@ -96,18 +118,6 @@ public class Main extends Application {
                 //Wat moet add Wagon button doen??? <-----------------------------------------------
             }
         });
-        
-        ComboBox TrainCombobox = new ComboBox();
-        TrainCombobox.getItems().addAll(
-        		//add trains here <----------------------------------------------------------------
-            "Train1",
-            "Train2",
-            "Train3",
-            "Train4",
-            "Train5" 
-        );
-        TrainCombobox.setValue("Kies trein");
-        grid.add(TrainCombobox, WagonNameColumn+2, WagonNameRow);
         
     }
 
