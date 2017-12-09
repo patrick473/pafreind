@@ -32,21 +32,21 @@ public class Main extends Application {
         Scene scene = new Scene(grid, 1200, 850);
         primaryStage.setScene(scene);
         
-        Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("NS nooit snel");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 30, 12, 1);
+        grid.add(scenetitle, 0, 34, 12, 1);
 
-        Label userName = new Label("User Name:");
-        grid.add(userName, 0, 1);
+        Label TreinNaamL = new Label("Trein naam:");
+        grid.add(TreinNaamL, 0, 35);
 
-        TextField userTextField = new TextField();
-        grid.add(userTextField, 1, 1);
+        TextField TreinNaamT = new TextField();
+        grid.add(TreinNaamT, 1, 35);
 
-        Label pw = new Label("Password:");
-        grid.add(pw, 0, 2);
+        Label WagonNaamL = new Label("Wagon naam:");
+        grid.add(WagonNaamL, 3, 35);
 
-        PasswordField pwBox = new PasswordField();
-        grid.add(pwBox, 1, 2);
+        TextField WagonNaamT = new PasswordField();
+        grid.add(WagonNaamT, 4, 35);
         
     }
 
