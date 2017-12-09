@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -32,6 +33,9 @@ public class Main extends Application {
     	Integer TrainNameRow = 35;
     	Integer WagonNameColumn = 1;
     	Integer WagonNameRow = 36;
+    	Integer LocomotiveNameColumn = 3;
+    	Integer LocomotiveNameRow = 35;
+    	
     	
     	primaryStage.setTitle("JavaFX Welcome");
         
@@ -45,47 +49,65 @@ public class Main extends Application {
         Scene scene = new Scene(grid, 1200, 850);
         primaryStage.setScene(scene);
         
-        Text scenetitle = new Text("NS nooit snel");
+        Text scenetitle = new Text("NS Not Simple");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, SceneTitleColumn, SceneTitleRow, 12, 1);
 
-        Label TrainNameL = new Label("Trein naam:");
+        Label TrainNameL = new Label("Trein name:");
         grid.add(TrainNameL, TrainNameColumn, TrainNameRow);
 
         TextField TrainNameT = new TextField();
         grid.add(TrainNameT, TrainNameColumn+1, TrainNameRow);
-
-        Label WagonNameL = new Label("Wagon naam:");
-        grid.add(WagonNameL, WagonNameColumn, WagonNameRow);
-
-        TextField WagonNameT = new PasswordField();
-        grid.add(WagonNameT, WagonNameColumn+1, WagonNameRow);
         
         Button BtnTrain = new Button("Add Train");
         HBox HbBtnTrain = new HBox(10);
         HbBtnTrain.getChildren().add(BtnTrain);
-        grid.add(HbBtnTrain, TrainNameColumn+2, TrainNameRow);
+        grid.add(HbBtnTrain, TrainNameColumn+4, TrainNameRow);
         
         BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
        	 
             @Override
             public void handle(ActionEvent e) {
-                //Wat moet add trein button doen???
+                //Wat moet add trein button doen??? <----------------------------------------------------
             }
         });
+        
+        Label LocomotiveNameL = new Label("Locomotive name:");
+        grid.add(LocomotiveNameL, LocomotiveNameColumn, LocomotiveNameRow);
+
+        TextField LocomotiveNameT = new PasswordField();
+        grid.add(LocomotiveNameT, LocomotiveNameColumn+1, LocomotiveNameRow);
+
+        Label WagonNameL = new Label("Wagon name:");
+        grid.add(WagonNameL, WagonNameColumn, WagonNameRow);
+
+        TextField WagonNameT = new PasswordField();
+        grid.add(WagonNameT, WagonNameColumn+1, WagonNameRow);
         
         Button BtnWagon = new Button("Add Wagon");
         HBox HbBtnWagon = new HBox(10);
         HbBtnWagon.getChildren().add(BtnWagon);
-        grid.add(HbBtnWagon, WagonNameColumn+2, WagonNameRow);
+        grid.add(HbBtnWagon, WagonNameColumn+3, WagonNameRow);
         
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
         	 
             @Override
             public void handle(ActionEvent e) {
-                //Wat moet add Wagon button doen???
+                //Wat moet add Wagon button doen??? <-----------------------------------------------
             }
         });
+        
+        ComboBox TrainCombobox = new ComboBox();
+        TrainCombobox.getItems().addAll(
+        		//add trains here <----------------------------------------------------------------
+            "Train1",
+            "Train2",
+            "Train3",
+            "Train4",
+            "Train5" 
+        );
+        TrainCombobox.setValue("Kies trein");
+        grid.add(TrainCombobox, WagonNameColumn+2, WagonNameRow);
         
     }
 
