@@ -5,6 +5,7 @@ public class Wagon extends Component {
     Integer amountOfSeats;
     Integer wagonID;
 
+
     public Wagon(String name, Integer amountOfSeats, Integer wagonID) {
         super(name);
         if (amountOfSeats== 0){ amountOfSeats=20;}
