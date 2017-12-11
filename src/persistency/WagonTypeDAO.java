@@ -1,5 +1,7 @@
 package persistency;
 
+import Domain.Wagon;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,12 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.hu.v1ipass.DAO.BaseDAO;
-import nl.hu.v1ipass.POJO.Gerecht;
-
 public class WagonTypeDAO extends BaseDAO {
 
-	public void addWagonType(WagonType WagonType) {
+	public void addWagonType(Wagon WagonType) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 	
@@ -20,7 +19,7 @@ public class WagonTypeDAO extends BaseDAO {
 					"INSERT into wagontype(name, amountofseats, wagonid) VALUES(?,?,?)");
 			pstmt.setString(1, //.getName());//
 			pstmt.setInt(2, //.getAmountOfSeats());//
-			pstmt.setInt(3, //gerecht.getWagonId());//
+			pstmt.setInt(3, //.getWagonId());//
 			pstmt.executeQuery();
 			myConn.close();
 		}
@@ -32,8 +31,8 @@ public class WagonTypeDAO extends BaseDAO {
 	
 	}
 	
-	public List<WagonType> findAlleWagonTypes() {
-		List<WagonType> wagontypelist = new ArrayList<WagonType>();
+	public List<Wagon> findAlleWagonTypes() {
+		List<Wagon> wagontypelist = new ArrayList<Wagon>();
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
@@ -42,7 +41,7 @@ public class WagonTypeDAO extends BaseDAO {
 			ResultSet myRs = myStmt.executeQuery("select * from wagontype");
 
 			while (myRs.next()) {
-				WagonType s = new WagonType(myRs.getString("name"), myRs.getInt("amountofseats"),
+				Wagon s = new Wagon(myRs.getString("name"), myRs.getInt("amountofseats"),
 						myRs.getInt("wagonid"));
 				wagontypelist.add(s);
 				
