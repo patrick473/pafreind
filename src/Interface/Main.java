@@ -38,7 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
     	
-    	//pas locatie van interface onderdelen hier aan
+    	//pas locatie van interface onderdelen hier aan (overlapping wordt niet voorkomen)
     	Integer SceneTitleRow = 34;
     	Integer SceneTitleColumn = 0;
     	Integer TrainNameColumn = 1;
@@ -144,8 +144,28 @@ public class Main extends Application {
             }
         });
         
+        //Create list view and title of the list for wagon
+        ListView<String> WagonList = new ListView<String>();
+        ObservableList<String> WagonItems = FXCollections.observableArrayList(
+        		"Wagon1", "Wagon2", "Wagon3", "Wagon4"); // PUT WAGON NAMES OF SELECTED TRAIN HERE <----------------------
+        WagonList.setItems(WagonItems);
+        WagonList.setPrefHeight(200);
+        Label WagonListL = new Label("Wagons of selected train");
+        WagonListL .setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
+        WagonList.setDisable(true);
+        grid.add(WagonListL, 4, 37);
+        grid.add(WagonList, 4, 38, 20, 1);
         
-        //Create list view and title of the list
+        WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println("ListView selection WAGON changed from oldValue = " 
+                        + oldValue + " to newValue = " + newValue);
+            }
+        });
+        
+        
+        //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (
             "Train1", "Train2", "Train3", "Train4"); //PUT TRAIN NAMES HERE <-------------------------------------
@@ -154,7 +174,7 @@ public class Main extends Application {
         Label TrainListL = new Label("Select to add wagons or remove train");
         TrainListL.setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
         grid.add(TrainListL, 1, 37);
-        grid.add(TrainList, 1, 38, 8, 1);
+        grid.add(TrainList, 1, 38, 3, 1);
         
         //List select listner
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -164,8 +184,9 @@ public class Main extends Application {
             	//activate input for wagon. If not activated input will be null
             	WagonSeatT.setDisable(false);
                 WagonNameT.setDisable(false);
+                WagonList.setDisable(false);
                 
-                System.out.println("ListView selection changed from oldValue = " 
+                System.out.println("ListView selection TRAIN changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
             }
         });
