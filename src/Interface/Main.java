@@ -164,6 +164,19 @@ public class Main extends Application {
             }
         });
         
+        //Button to activate the function for deleting a wagon
+        Button BtnWagonDelete = new Button ("Delete wagon");
+        HBox HbBtnWagonDelete =  new HBox(10);
+        HbBtnWagonDelete.getChildren().add(BtnWagonDelete);
+        grid.add(HbBtnWagonDelete, 4, 39);
+        
+        BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {
+       	 
+            @Override
+            public void handle(ActionEvent e) {
+                //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+            }
+        });
         
         //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
@@ -188,6 +201,20 @@ public class Main extends Application {
                 
                 System.out.println("ListView selection TRAIN changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
+            }
+        });
+        
+      //Button to activate the function for deleting a Train
+        Button BtnTrainDelete = new Button ("Delete Train");
+        HBox HbBtnTrainDelete =  new HBox(10);
+        HbBtnTrainDelete.getChildren().add(BtnTrainDelete);
+        grid.add(HbBtnTrainDelete, 1, 39);
+        
+        BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {
+       	 
+            @Override
+            public void handle(ActionEvent e) {
+                //Wat moet Delete Train button doen??? <-----------------------------------------------
             }
         });
         
