@@ -8,9 +8,10 @@ public class Train  {
     ArrayList<Component> components;
     String name;
 
-    public Train(Integer trainID, ArrayList<Component> components) {
+    public Train(Integer trainID, ArrayList<Component> components,String name) {
         this.trainID = trainID;
         this.components = components;
+        this.name = name;
     }
 
     public Integer getTrainID() {
