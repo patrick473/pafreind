@@ -57,25 +57,31 @@ public class Main extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
         //grid.setPadding(new Insets(25, 25, 25, 25));
-
+        
+        //how big does the screen need to be?
         Scene scene = new Scene(grid, 1200, 850);
         primaryStage.setScene(scene);
         
+        //main title of scene
         Text scenetitle = new Text("NS Not Simple");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, SceneTitleColumn, SceneTitleRow, 12, 1);
-
+        
+        //label infront of train name input
         Label TrainNameL = new Label("Trein name:");
         grid.add(TrainNameL, TrainNameColumn, TrainNameRow);
 
+        //Input for train name
         TextField TrainNameT = new TextField();
         grid.add(TrainNameT, TrainNameColumn+1, TrainNameRow);
         
+        //Button to activate the function for adding a train
         Button BtnTrain = new Button("Add Train");
         HBox HbBtnTrain = new HBox(10);
         HbBtnTrain.getChildren().add(BtnTrain);
         grid.add(HbBtnTrain, TrainNameColumn+4, TrainNameRow);
         
+        //Btntrain function
         BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
        	 
             @Override
@@ -84,26 +90,33 @@ public class Main extends Application {
             }
         });
         
+        //label infornt of input for locomotive name
         Label LocomotiveNameL = new Label("Locomotive name:");
         grid.add(LocomotiveNameL, LocomotiveNameColumn, LocomotiveNameRow);
-
+        
+        //Input field for locomotive name
         TextField LocomotiveNameT = new TextField();
         grid.add(LocomotiveNameT, LocomotiveNameColumn+1, LocomotiveNameRow);
-
+        
+        //label infornt of input for Wagon name
         Label WagonNameL = new Label("Wagon name:");
         grid.add(WagonNameL, WagonNameColumn, WagonNameRow);
-
+        
+        //Input for wagon name
         TextField WagonNameT = new TextField();
         WagonNameT.setDisable(true);
         grid.add(WagonNameT,WagonNameColumn+1, WagonNameRow);
         
+        //label infornt of input for amount of seats
         Label WagonSeatL = new Label("Amount of seats:");
         grid.add(WagonSeatL,WagonNameColumn+2, WagonNameRow);
-
+        
+        //Input for amount of seats. ONLY NUMBERS ALLOWED
         TextField WagonSeatT = new TextField();
         WagonSeatT.setDisable(true);
         grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
         
+        //Blocks any letters from getting in the WagonSeatT input field
         UnaryOperator<Change> integerFilter = change -> {
             String newText = change.getControlNewText();
             if (newText.matches("-?([1-9][0-9]*)?")) { 
@@ -111,15 +124,18 @@ public class Main extends Application {
             }
             return null;
         };
-
+        
+        //turn wagonseat into Integer value
         WagonSeatT.setTextFormatter(
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
         
+        //Button to activate the function for adding a wagon to the selected train
         Button BtnWagon = new Button("Add Wagontype");
         HBox HbBtnWagon = new HBox(10);
         HbBtnWagon.getChildren().add(BtnWagon);
         grid.add(HbBtnWagon,WagonNameColumn+4, WagonNameRow);
         
+        //Button function of BtnWagon
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
         	 
             @Override
@@ -156,7 +172,7 @@ public class Main extends Application {
         
     }
 
-
+    //Lift of for application
     public static void main(String[] args) {
         launch(args);
     }
