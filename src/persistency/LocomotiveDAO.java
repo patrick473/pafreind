@@ -69,10 +69,10 @@ public class LocomotiveDAO extends BaseDAO {
 			ResultSet rs = pstmt.getResultSet();
 
 			while (rs.next()) {
-				int trainid1 = rs.getInt("trainid");
+
 				String name1 = rs.getString("name");
 				int locomotiveid1 = rs.getInt("locomotiveid");
-				Locomotive locomotive = new Locomotive(trainid1, name1, locomotiveid1);
+				Locomotive locomotive = new Locomotive( name1, locomotiveid1);
 
 				p = locomotive;
 			}
