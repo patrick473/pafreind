@@ -29,6 +29,7 @@ public class Wagon extends Component {
         this.wagonID = wagonID;
     }
 
+
     @Override
     public String toString() {
         return "Wagon{" +
