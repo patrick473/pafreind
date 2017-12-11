@@ -113,7 +113,7 @@ public class Main extends Application {
         WagonSeatT.setTextFormatter(
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
         
-        Button BtnWagon = new Button("Add Wagon");
+        Button BtnWagon = new Button("Add Wagontype");
         HBox HbBtnWagon = new HBox(10);
         HbBtnWagon.getChildren().add(BtnWagon);
         grid.add(HbBtnWagon,WagonNameColumn+4, WagonNameRow);
