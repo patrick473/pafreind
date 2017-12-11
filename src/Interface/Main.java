@@ -94,12 +94,14 @@ public class Main extends Application {
         grid.add(WagonNameL, WagonNameColumn, WagonNameRow);
 
         TextField WagonNameT = new TextField();
+        WagonNameT.setDisable(true);
         grid.add(WagonNameT,WagonNameColumn+1, WagonNameRow);
         
         Label WagonSeatL = new Label("Amount of seats:");
         grid.add(WagonSeatL,WagonNameColumn+2, WagonNameRow);
 
         TextField WagonSeatT = new TextField();
+        WagonSeatT.setDisable(true);
         grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
         
         UnaryOperator<Change> integerFilter = change -> {
@@ -126,19 +128,27 @@ public class Main extends Application {
             }
         });
         
+        
+        //Create list view and title of the list
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (
             "Train1", "Train2", "Train3", "Train4"); //PUT TRAIN NAMES HERE <-------------------------------------
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
-        Label TrainListL = new Label("Select train before adding the wagon");
+        Label TrainListL = new Label("Select to add wagons or remove train");
         TrainListL.setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
         grid.add(TrainListL, 1, 37);
         grid.add(TrainList, 1, 38, 8, 1);
         
+        //List select listner
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            	
+            	//activate input for wagon. If not activated input will be null
+            	WagonSeatT.setDisable(false);
+                WagonNameT.setDisable(false);
+                
                 System.out.println("ListView selection changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
             }
