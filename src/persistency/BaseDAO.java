@@ -17,7 +17,7 @@ public class BaseDAO {
     public BaseDAO() {
 
     }
-    public Connection getConnection(){
+    public static Connection getConnection(){
         final String url = "jdbc:postgresql://localhost/postgres";
         final String user = "postgres";
         final String password = "password";
