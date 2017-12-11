@@ -1,5 +1,6 @@
 package persistency;
 
+import Domain.Component;
 import Domain.Wagon;
 
 import java.sql.Connection;
@@ -17,9 +18,9 @@ public class WagonTypeDAO extends BaseDAO {
 	
 			PreparedStatement pstmt = myConn.prepareStatement(
 					"INSERT into wagontype(name, amountofseats, wagonid) VALUES(?,?,?)");
-			pstmt.setString(1, //.getName());//
-			pstmt.setInt(2, //.getAmountOfSeats());//
-			pstmt.setInt(3, //.getWagonId());//
+			pstmt.setString(1, WagonType.getName());
+			pstmt.setInt(2, WagonType.getAmountOfSeats());
+			pstmt.setInt(3, WagonType.getWagonID());
 			pstmt.executeQuery();
 			myConn.close();
 		}
