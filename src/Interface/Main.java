@@ -50,6 +50,8 @@ public class Main extends Application {
     	Integer WagonNameRow = 36;
     	Integer LocomotiveNameColumn = 3;
     	Integer LocomotiveNameRow = 35;
+    	Integer WagonLocoPicCol = 1;
+    	Integer WagonLocoPicRow = 1;
     	
     	
     	primaryStage.setTitle("JavaFX Welcome");
@@ -237,9 +239,17 @@ public class Main extends Application {
         String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
         Image ImageLoco = new Image(UrlLoco, true);
         ImageView ImageViewLoco = new ImageView(ImageLoco);
-        ImageViewLoco.setFitHeight(100);
-        ImageViewLoco.setFitWidth(150);
-        grid.add(ImageViewLoco, 1, 1);
+        ImageViewLoco.setFitHeight(200);
+        ImageViewLoco.setFitWidth(250);
+        grid.add(ImageViewLoco, WagonLocoPicCol, WagonLocoPicRow);
+        
+        //create wagon
+        String UrlWagon = "https://us.123rf.com/450wm/studioworkstock/studioworkstock1611/studioworkstock161100145/67173618-railway-wagon-isolated-on-white-background-vector-illustration-railroad-transport-design-element-sid.jpg?ver=6";
+        Image ImageWagon = new Image(UrlWagon, true);
+        ImageView ImageViewWagon = new ImageView(ImageWagon);
+        ImageViewWagon.setFitHeight(200);
+        ImageViewWagon.setFitWidth(250);
+        grid.add(ImageViewWagon, WagonLocoPicCol+1, WagonLocoPicRow); // WagonLocoPicCol+number --> number = hoeveelste wagon van de trein?
         
     }
 
