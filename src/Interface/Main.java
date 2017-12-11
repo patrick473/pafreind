@@ -3,6 +3,10 @@ package Interface;
 import java.util.function.UnaryOperator;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -116,6 +123,24 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent e) {
                 //Wat moet add Wagon button doen??? <-----------------------------------------------
+            }
+        });
+        
+        ListView<String> TrainList = new ListView<String>();
+        ObservableList<String> TrainItems =FXCollections.observableArrayList (
+            "Single", "Double", "Suite", "Family App");
+        TrainList.setItems(TrainItems);
+        TrainList.setPrefHeight(200);
+        Label TrainListL = new Label("Select train before adding the wagon");
+        TrainListL.setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
+        grid.add(TrainListL, 1, 37);
+        grid.add(TrainList, 1, 38, 8, 1);
+        
+        TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println("ListView selection changed from oldValue = " 
+                        + oldValue + " to newValue = " + newValue);
             }
         });
         
