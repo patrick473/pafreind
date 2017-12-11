@@ -128,7 +128,7 @@ public class Main extends Application {
         
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (
-            "Single", "Double", "Suite", "Family App"); //PUT TRAIN NAMES HERE <-------------------------------------
+            "Train1", "Train2", "Train3", "Train4"); //PUT TRAIN NAMES HERE <-------------------------------------
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
         Label TrainListL = new Label("Select train before adding the wagon");
