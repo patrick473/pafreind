@@ -62,7 +62,7 @@ public class LocomotiveDAO extends BaseDAO {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
-			PreparedStatement pstmt = myConn.prepareStatement("SELECT * FROM locomotive WHERE trainid = ?");
+			PreparedStatement pstmt = myConn.prepareStatement("SELECT * FROM locomotive WHERE \"trainID\" = ?");
 			pstmt.setInt(1, trainid);
 			pstmt.executeQuery();
 
