@@ -1,5 +1,6 @@
 package Interface;
 
+import java.awt.Color;
 import java.util.function.UnaryOperator;
 
 import javafx.application.Application;
@@ -24,6 +25,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
@@ -217,6 +220,26 @@ public class Main extends Application {
                 //Wat moet Delete Train button doen??? <-----------------------------------------------
             }
         });
+        
+//        Rectangle r1 = new Rectangle();
+//        r1.setWidth(100);
+//        r1.setHeight(50);
+//        r1.setFill(javafx.scene.paint.Color.GRAY);
+//        grid.add(r1, 1, 6);
+//        
+//        Rectangle r2 = new Rectangle();
+//        r2.setWidth(50);
+//        r2.setHeight(70);
+//        r2.setFill(javafx.scene.paint.Color.GRAY);
+//        grid.add(r2, 1, 6);
+        
+        //create locomotive
+        String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
+        Image ImageLoco = new Image(UrlLoco, true);
+        ImageView ImageViewLoco = new ImageView(ImageLoco);
+        ImageViewLoco.setFitHeight(100);
+        ImageViewLoco.setFitWidth(150);
+        grid.add(ImageViewLoco, 1, 1);
         
     }
 
