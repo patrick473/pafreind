@@ -81,4 +81,20 @@ public class LocomotiveDAO extends BaseDAO {
 		}
 		return p;
 	}
+	
+	public void deleteLocomotive(Train train) {
+		try {
+			Connection myConn = BaseDAO.getConnection();
+
+			PreparedStatement pstmt = myConn.prepareStatement("DELETE FROM locomotive WHERE trainid = ?");
+			pstmt.setInt(1, train.getTrainID());
+			pstmt.execute();
+			myConn.close();
+		}
+
+		catch (Exception exc) {
+			exc.printStackTrace();
+		}
+
+	}
 }
