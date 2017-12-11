@@ -28,3 +28,4 @@ RemoteSystemsTempFiles/
 #idea files#
 .idea/
 .recommenders/
+/bin/
