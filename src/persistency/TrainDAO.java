@@ -35,4 +35,7 @@ public class TrainDAO extends BaseDAO {
         }
         return results;
     }
+    public Train findTrain(Integer trainID){
+        getTrains("select * from train where")
+    }
 }
