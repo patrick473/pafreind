@@ -36,6 +36,8 @@ public class TrainDAO extends BaseDAO {
         return results;
     }
     public Train findTrain(Integer trainID){
-        getTrains("select * from train where")
+        ArrayList<Train> trains =getTrains("select * from train where trainid = "+ trainID);
+        Train train = trains.get(0);
+        return train;
     }
 }
