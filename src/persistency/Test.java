@@ -1,7 +1,9 @@
 package persistency;
 
 
-
+import Domain.Component;
+import Domain.Locomotive;
+import Domain.Train;
 
 /**
  * Created by patrick on 12/7/2017.
@@ -12,11 +14,15 @@ public class Test {
 
         BaseDAO bdao = new BaseDAO();
         TrainDAO tdao = new TrainDAO();
-        bdao.getConnection();
+        LocomotiveDAO ldao = new LocomotiveDAO();
+
 
         System.out.println(tdao.findAllTrains());
-        System.out.println(tdao.findTrain(2));
+        Train a =tdao.findTrain(2);
+        System.out.println(a.getComponents());
+        Train train = new Train("name");
 
+        System.out.println(tdao.createTrain(train));
         }
     }
 

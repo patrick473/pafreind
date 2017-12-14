@@ -4,15 +4,14 @@ import Domain.Component;
 import Domain.Locomotive;
 import Domain.Train;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class TrainDAO extends BaseDAO {
 
     LocomotiveDAO ldao = new LocomotiveDAO();
+
+    //master select
     private ArrayList<Train> getTrains(String query){
         ArrayList<Train> results = new ArrayList<Train>();
         try (Connection con = super.getConnection()){
@@ -35,6 +34,7 @@ public class TrainDAO extends BaseDAO {
         }
         return results;
     }
+    //select statements
     public Train findTrain(Integer trainID){
         ArrayList<Train> trains =getTrains("select * from train where trainid = "+ trainID);
         Train train = trains.get(0);
@@ -45,4 +45,31 @@ public class TrainDAO extends BaseDAO {
 
         return trains;
     }
+    public Train findLatestTrain(){
+        ArrayList<Train> trains =getTrains("SELECT * FROM train ORDER BY trainID DESC limit 1 ");
+        Train train = trains.get(0);
+        return train;
+    }
+    public Train createTrain(Train t){
+        try(Connection con = super.getConnection()){
+
+            PreparedStatement pstmt = con.prepareStatement(
+                    "INSERT into train (name,trainID) VALUES(?,nextval('trainseq'))");
+
+            pstmt.setString(1, t.getName());
+
+            pstmt.executeUpdate();
+        t = findLatestTrain();
+
+        Component tloco = new Locomotive(t.getName());
+        ldao.addLocomitive(t,tloco);
+        t.addComponent(tloco);
+        }
+        catch ( SQLException sqle){
+            sqle.printStackTrace();
+        }
+        return t;
+    }
+
+
 }

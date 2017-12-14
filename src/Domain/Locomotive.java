@@ -4,6 +4,10 @@ public class Locomotive extends Component {
 
         Integer locomotiveID;
 
+    public Locomotive(String name) {
+        super(name);
+    }
+
     public Locomotive(String name, Integer locomotiveID) {
         super(name);
         this.locomotiveID = locomotiveID;

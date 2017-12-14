@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import Domain.Component;
 import Domain.Locomotive;
 import Domain.Train;
 
@@ -14,16 +15,16 @@ import Domain.Train;
 
 public class LocomotiveDAO extends BaseDAO {
 
-	public void addLocomitive(Train train, Locomotive locomotive) {
+	public void addLocomitive(Train train, Component locomotive) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
 			PreparedStatement pstmt = myConn.prepareStatement(
-					"INSERT into locomotive(trainid, name, locomotiveid) VALUES(?,?,?)");
+					"INSERT into locomotive(\"trainID\", \"Name\", \"locomotiveID\") VALUES(?,?,nextval('locoseq'))");
 			pstmt.setInt(1, train.getTrainID());
 			pstmt.setString(2, locomotive.getName());
-			pstmt.setInt(3, locomotive.getLocomotiveID());
-			pstmt.executeQuery();
+
+			pstmt.executeUpdate();
 			myConn.close();
 		}
 

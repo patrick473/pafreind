@@ -8,7 +8,11 @@ public class Train  {
     ArrayList<Component> components;
     String name;
 
-    public Train(Integer trainID, ArrayList<Component> components,String name) {
+    public Train(String name) {
+        this.name = name;
+    }
+
+    public Train(Integer trainID, ArrayList<Component> components, String name) {
         this.trainID = trainID;
         this.components = components;
         this.name = name;
@@ -24,6 +28,14 @@ public class Train  {
 
     public ArrayList<Component> getComponents() {
         return components;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setComponents(ArrayList<Component> components) {
