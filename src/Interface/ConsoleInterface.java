@@ -2,6 +2,7 @@ package Interface;
 
 import java.util.*;
 
+import Domain.Wagon;
 import persistency.WagonTrainDAO;
 import persistency.WagonTypeDAO;
 
@@ -13,7 +14,7 @@ public class ConsoleInterface {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
-
+        WagonTypeDAO wdao = new WagonTypeDAO();
         while ( !"stop".equals( s)) {
 
             String[] splitcheck = s.split(" ");
@@ -25,7 +26,8 @@ public class ConsoleInterface {
                     System.out.println("avef");
                     System.out.println(splitcheck[4]);
                     // new wagon type with specified amount of seats
-                    WagonTypeDAO.addWagonType(splitcheck[2], splitcheck[4]);
+                    Wagon wagon = new Wagon(splitcheck[2],splitcheck[4]);
+                    wdao.addWagonType(wagon);
                 } else if (s.startsWith("new wagon ")) {
                     System.out.println(s.substring(10));
                     // new wagon type with standard amount of seats using controller

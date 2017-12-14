@@ -16,7 +16,7 @@ public class WagonTrainDAO extends BaseDAO {
 			Connection myConn = BaseDAO.getConnection();
 
 			PreparedStatement pstmt = myConn.prepareStatement(
-					"INSERT into wagontrain(trainid, wagonid) VALUES(?,?)");
+					"INSERT into wagontrain(trainid, wagon\"ID\" ,wagontrain) VALUES(?,?,nextval('wagontrainseq'))");
 			pstmt.setInt(1, train.getTrainID());
 			pstmt.setInt(2, wagon.getWagonID());
 			pstmt.executeQuery();
