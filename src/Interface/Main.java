@@ -54,7 +54,7 @@ public class Main extends Application {
     	Integer WagonLocoPicRow = 1;
     	
     	
-    	primaryStage.setTitle("JavaFX Welcome");
+    	primaryStage.setTitle("Thomas The Train Application");
         
         primaryStage.show();
         GridPane grid = new GridPane();
@@ -86,15 +86,6 @@ public class Main extends Application {
         HbBtnTrain.getChildren().add(BtnTrain);
         grid.add(HbBtnTrain, TrainNameColumn+4, TrainNameRow);
         
-        //Btntrain function
-        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-                //Wat moet add trein button doen??? <----------------------------------------------------
-            }
-        });
-        
         //label infornt of input for locomotive name
         Label LocomotiveNameL = new Label("Locomotive name:");
         grid.add(LocomotiveNameL, LocomotiveNameColumn, LocomotiveNameRow);
@@ -121,6 +112,36 @@ public class Main extends Application {
         WagonSeatT.setDisable(true);
         grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
         
+        //Button to activate the function for deleting a wagon
+        Button BtnWagonDelete = new Button ("Delete wagon");
+        HBox HbBtnWagonDelete =  new HBox(10);
+        HbBtnWagonDelete.getChildren().add(BtnWagonDelete);
+        grid.add(HbBtnWagonDelete, 4, 39);
+        
+        //Button to activate the function for adding a wagon to the selected train
+        Button BtnWagon = new Button("Add Wagontype");
+        HBox HbBtnWagon = new HBox(10);
+        HbBtnWagon.getChildren().add(BtnWagon);
+        grid.add(HbBtnWagon,WagonNameColumn+4, WagonNameRow);
+        
+        //Button to activate the function for deleting a Train
+        Button BtnTrainDelete = new Button ("Delete Train");
+        HBox HbBtnTrainDelete =  new HBox(10);
+        HbBtnTrainDelete.getChildren().add(BtnTrainDelete);
+        grid.add(HbBtnTrainDelete, 1, 39);
+        
+        
+        //Btntrain function
+        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
+       	 
+            @Override
+            public void handle(ActionEvent e) {
+            	String TrainNameInput = TrainNameT.getText();
+            	String LocomotiveNameInput = LocomotiveNameT.getText();
+                //Wat moet add trein button doen??? <----------------------------------------------------
+            }
+        });
+        
         //Blocks any letters from getting in the WagonSeatT input field
         UnaryOperator<Change> integerFilter = change -> {
             String newText = change.getControlNewText();
@@ -133,18 +154,14 @@ public class Main extends Application {
         //turn wagonseat into Integer value
         WagonSeatT.setTextFormatter(
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
-        
-        //Button to activate the function for adding a wagon to the selected train
-        Button BtnWagon = new Button("Add Wagontype");
-        HBox HbBtnWagon = new HBox(10);
-        HbBtnWagon.getChildren().add(BtnWagon);
-        grid.add(HbBtnWagon,WagonNameColumn+4, WagonNameRow);
-        
+
         //Button function of BtnWagon
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
         	 
             @Override
             public void handle(ActionEvent e) {
+            	String WagonNameInput = WagonNameT.getText();
+            	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
                 //Wat moet add Wagon button doen??? <-----------------------------------------------
             }
         });
@@ -164,22 +181,19 @@ public class Main extends Application {
         WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            	
+            	//test select
                 System.out.println("ListView selection WAGON changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
-            }
-        });
-        
-        //Button to activate the function for deleting a wagon
-        Button BtnWagonDelete = new Button ("Delete wagon");
-        HBox HbBtnWagonDelete =  new HBox(10);
-        HbBtnWagonDelete.getChildren().add(BtnWagonDelete);
-        grid.add(HbBtnWagonDelete, 4, 39);
-        
-        BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-                //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+                
+                //button function for deleting selected wagon
+                BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
+                    @Override
+                    public void handle(ActionEvent e) {
+                        //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+                    }
+                });
+                
             }
         });
         
@@ -204,22 +218,18 @@ public class Main extends Application {
                 WagonNameT.setDisable(false);
                 WagonList.setDisable(false);
                 
+                //test select
                 System.out.println("ListView selection TRAIN changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
-            }
-        });
-        
-      //Button to activate the function for deleting a Train
-        Button BtnTrainDelete = new Button ("Delete Train");
-        HBox HbBtnTrainDelete =  new HBox(10);
-        HbBtnTrainDelete.getChildren().add(BtnTrainDelete);
-        grid.add(HbBtnTrainDelete, 1, 39);
-        
-        BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-                //Wat moet Delete Train button doen??? <-----------------------------------------------
+                
+                //Button function for deleting selected train
+                BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
+                    @Override
+                    public void handle(ActionEvent e) {
+                        //Wat moet Delete Train button doen??? <-----------------------------------------------
+                    }
+                });
+                
             }
         });
         
