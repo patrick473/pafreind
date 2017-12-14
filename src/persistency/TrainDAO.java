@@ -75,6 +75,24 @@ public class TrainDAO extends BaseDAO {
         }
         return t;
     }
+    
+    public void getTrainSeats(Integer trainid) {
+    	try {
+			Connection myConn = BaseDAO.getConnection();
+
+			PreparedStatement pstmt = myConn.prepareStatement("SELECT amountofseats FROM wagontype WHERE wagontrain.trainid = ? "
+					+ "AND wagontype.wagonid = wagontrain.wagonid ");
+			pstmt.setInt(1, trainid);
+			pstmt.executeQuery();
+
+			ResultSet rs = pstmt.getResultSet();
+
+			System.out.println(rs);
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+    }
+    
     public void deleteTrain(Train t){
         try( Connection con = super.getConnection()){
 
