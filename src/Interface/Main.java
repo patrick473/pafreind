@@ -54,7 +54,7 @@ public class Main extends Application {
     	Integer WagonLocoPicRow = 1;
     	
     	
-    	primaryStage.setTitle("JavaFX Welcome");
+    	primaryStage.setTitle("Thomas The Train Application");
         
         primaryStage.show();
         GridPane grid = new GridPane();
@@ -86,15 +86,6 @@ public class Main extends Application {
         HbBtnTrain.getChildren().add(BtnTrain);
         grid.add(HbBtnTrain, TrainNameColumn+4, TrainNameRow);
         
-        //Btntrain function
-        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-                //Wat moet add trein button doen??? <----------------------------------------------------
-            }
-        });
-        
         //label infornt of input for locomotive name
         Label LocomotiveNameL = new Label("Locomotive name:");
         grid.add(LocomotiveNameL, LocomotiveNameColumn, LocomotiveNameRow);
@@ -121,6 +112,17 @@ public class Main extends Application {
         WagonSeatT.setDisable(true);
         grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
         
+        //Btntrain function
+        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
+       	 
+            @Override
+            public void handle(ActionEvent e) {
+            	String TrainNameInput = TrainNameT.getText();
+            	String LocomotiveNameInput = LocomotiveNameT.getText();
+                //Wat moet add trein button doen??? <----------------------------------------------------
+            }
+        });
+        
         //Blocks any letters from getting in the WagonSeatT input field
         UnaryOperator<Change> integerFilter = change -> {
             String newText = change.getControlNewText();
@@ -145,6 +147,8 @@ public class Main extends Application {
         	 
             @Override
             public void handle(ActionEvent e) {
+            	String WagonNameInput = WagonNameT.getText();
+            	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
                 //Wat moet add Wagon button doen??? <-----------------------------------------------
             }
         });
