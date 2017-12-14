@@ -50,7 +50,7 @@ public class TrainDAO extends BaseDAO {
         Train train = trains.get(0);
         return train;
     }
-    public Train createTrain(Train t){
+    public Train createTrain(Train t,String loconame){
         try(Connection con = super.getConnection()){
 
             PreparedStatement pstmt = con.prepareStatement(
@@ -61,7 +61,7 @@ public class TrainDAO extends BaseDAO {
             pstmt.executeUpdate();
         t = findLatestTrain();
 
-        Component tloco = new Locomotive(t.getName());
+        Component tloco = new Locomotive(loconame);
         ldao.addLocomitive(t,tloco);
         t.addComponent(tloco);
         }
