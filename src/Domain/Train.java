@@ -42,10 +42,12 @@ public class Train  {
         return amountOfSeats;
     }
     @Override
+
     public String toString() {
         return "Train{" +
                 "trainID=" + trainID +
                 ", components=" + components +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
