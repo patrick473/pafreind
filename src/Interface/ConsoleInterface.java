@@ -10,13 +10,14 @@ public class ConsoleInterface {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
+
         while ( !"stop".equals( s)) {
 
             String[] splitcheck = s.split(" ");
             try {
                 if (s.startsWith("new train ")) {
                     System.out.println(s.substring(10));
-                    // new train using controller
+
                 } else if (s.startsWith("new wagon ") && "numseats".equals(splitcheck[3])) {
                     System.out.println("avef");
                     System.out.println(splitcheck[4]);
