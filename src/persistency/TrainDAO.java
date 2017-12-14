@@ -40,13 +40,18 @@ public class TrainDAO extends BaseDAO {
         Train train = trains.get(0);
         return train;
     }
+    public Train findTrainByName(String name){
+        ArrayList<Train> trains =getTrains("select * from train where name = "+ name);
+        Train train = trains.get(0);
+        return train;
+    }
     public ArrayList<Train> findAllTrains(){
         ArrayList<Train> trains =getTrains("select * from train ");
 
         return trains;
     }
     public Train findLatestTrain(){
-        ArrayList<Train> trains =getTrains("SELECT * FROM train ORDER BY trainID DESC limit 1 ");
+        ArrayList<Train> trains =getTrains("SELECT * FROM train ORDER BY \"trainID\" DESC limit 1 ");
         Train train = trains.get(0);
         return train;
     }

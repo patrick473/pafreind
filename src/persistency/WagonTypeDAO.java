@@ -55,8 +55,19 @@ public class WagonTypeDAO extends BaseDAO {
 		}
 		return wagontypelist;
 	}
+    public Wagon findWagon(Integer trainID){
+        List<Wagon> wagons =findAllWagonTypes("select * from wagon where \"wagonid\" = "+ trainID);
+        Wagon wagon = wagons.get(0);
+        return wagon;
+    }
+    public Wagon findWagonByName(String name ){
+        List<Wagon> wagons =findAllWagonTypes("select * from wagon where name = "+ name);
+        Wagon wagon = wagons.get(0);
+        return wagon;
+    }
 
-	public List<Wagon> selectAllWagonTypes(){
+
+    public List<Wagon> selectAllWagonTypes(){
 	    return findAllWagonTypes("select * from wagontype");
     }
     public Wagon selectWagon(Integer wagonID){

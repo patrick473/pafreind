@@ -17,6 +17,7 @@ public class Test {
         TrainDAO tdao = new TrainDAO();
         LocomotiveDAO ldao = new LocomotiveDAO();
         WagonTypeDAO wdao = new WagonTypeDAO();
+        WagonTrainDAO wtdao = new WagonTrainDAO();
 
 
         System.out.println(tdao.findAllTrains());
@@ -27,7 +28,11 @@ public class Test {
        //System.out.println(tdao.createTrain(train));
         Wagon wagon = new Wagon("wagon2",64);
         wdao.addWagonType(wagon);
+        wagon = wdao.selectWagon(1);
        System.out.println(wdao.selectAllWagonTypes());
+
+
+       wtdao.deleteWagonTrain(a,wagon);
         }
     }
 
