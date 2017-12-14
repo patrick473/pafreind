@@ -41,7 +41,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
     	
-    	//pas locatie van interface onderdelen hier aan (overlapping wordt niet voorkomen)
+    	//adjust location of scene components here. Watch out: they can conflict with each other.
     	Integer SceneTitleRow = 34;
     	Integer SceneTitleColumn = 0;
     	Integer TrainNameColumn = 1;
@@ -54,14 +54,16 @@ public class Main extends Application {
     	Integer WagonLocoPicRow = 1;
     	
     	
+    	//set title for scene
     	primaryStage.setTitle("Thomas The Train Application");
         
+    	//create scene
         primaryStage.show();
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT );
         grid.setHgap(10);
         grid.setVgap(10);
-        //grid.setPadding(new Insets(25, 25, 25, 25));
+        //grid.setPadding(new Insets(25, 25, 25, 25)); only activate if you want some nice padding. extra THICC.
         
         //how big does the screen need to be?
         Scene scene = new Scene(grid, 1200, 850);
@@ -156,8 +158,7 @@ public class Main extends Application {
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
 
         //Button function of BtnWagon
-        BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
-        	 
+        BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
             @Override
             public void handle(ActionEvent e) {
             	String WagonNameInput = WagonNameT.getText();
@@ -178,6 +179,7 @@ public class Main extends Application {
         grid.add(WagonListL, 4, 37);
         grid.add(WagonList, 4, 38, 20, 1);
         
+        //List select listner for wagon
         WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -208,7 +210,7 @@ public class Main extends Application {
         grid.add(TrainListL, 1, 37);
         grid.add(TrainList, 1, 38, 3, 1);
         
-        //List select listner
+        //List select listner for train
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
