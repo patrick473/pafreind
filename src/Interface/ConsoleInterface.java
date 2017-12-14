@@ -2,6 +2,9 @@ package Interface;
 
 import java.util.*;
 
+import persistency.WagonTrainDAO;
+import persistency.WagonTypeDAO;
+
 /**
  * Created by patrick on 12/7/2017.
  */
@@ -22,6 +25,7 @@ public class ConsoleInterface {
                     System.out.println("avef");
                     System.out.println(splitcheck[4]);
                     // new wagon type with specified amount of seats
+                    WagonTypeDAO.addWagonType(splitcheck[2], splitcheck[4]);
                 } else if (s.startsWith("new wagon ")) {
                     System.out.println(s.substring(10));
                     // new wagon type with standard amount of seats using controller
