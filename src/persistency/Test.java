@@ -4,6 +4,7 @@ package persistency;
 import Domain.Component;
 import Domain.Locomotive;
 import Domain.Train;
+import Domain.Wagon;
 
 /**
  * Created by patrick on 12/7/2017.
@@ -15,6 +16,7 @@ public class Test {
         BaseDAO bdao = new BaseDAO();
         TrainDAO tdao = new TrainDAO();
         LocomotiveDAO ldao = new LocomotiveDAO();
+        WagonTypeDAO wdao = new WagonTypeDAO();
 
 
         System.out.println(tdao.findAllTrains());
@@ -22,7 +24,10 @@ public class Test {
         System.out.println(a.getComponents());
         Train train = new Train("name");
 
-        System.out.println(tdao.createTrain(train));
+       //System.out.println(tdao.createTrain(train));
+        Wagon wagon = new Wagon("wagon2",64);
+        wdao.addWagonType(wagon);
+       System.out.println(wdao.selectAllWagonTypes());
         }
     }
 

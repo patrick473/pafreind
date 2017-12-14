@@ -17,11 +17,11 @@ public class WagonTypeDAO extends BaseDAO {
 			Connection myConn = BaseDAO.getConnection();
 	
 			PreparedStatement pstmt = myConn.prepareStatement(
-					"INSERT into wagontype(name, amountofseats, wagonid) VALUES(?,?,?)");
+					"INSERT into wagontype(name, amountofseats, \"wagonID\") VALUES(?,?,nextval('wagonseq'))");
 			pstmt.setString(1, WagonType.getName());
 			pstmt.setInt(2, WagonType.getAmountOfSeats());
-			pstmt.setInt(3, WagonType.getWagonID());
-			pstmt.executeQuery();
+
+			pstmt.executeUpdate();
 			myConn.close();
 		}
 	
@@ -32,18 +32,18 @@ public class WagonTypeDAO extends BaseDAO {
 	
 	}
 	
-	public List<Wagon> findAlleWagonTypes() {
+	private List<Wagon> findAllWagonTypes(String query) {
 		List<Wagon> wagontypelist = new ArrayList<Wagon>();
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
 			Statement myStmt = myConn.createStatement();
 
-			ResultSet myRs = myStmt.executeQuery("select * from wagontype");
+			ResultSet myRs = myStmt.executeQuery(query);
 
 			while (myRs.next()) {
 				Wagon s = new Wagon(myRs.getString("name"), myRs.getInt("amountofseats"),
-						myRs.getInt("wagonid"));
+						myRs.getInt("wagonID"));
 				wagontypelist.add(s);
 				
 				
@@ -55,4 +55,12 @@ public class WagonTypeDAO extends BaseDAO {
 		}
 		return wagontypelist;
 	}
+
+	public List<Wagon> selectAllWagonTypes(){
+	    return findAllWagonTypes("select * from wagontype");
+    }
+    public Wagon selectWagon(Integer wagonID){
+	    List<Wagon> wagontypes = findAllWagonTypes("select * from wagontype where \"wagonID\" ="+wagonID);
+	    return wagontypes.get(0);
+    }
 }

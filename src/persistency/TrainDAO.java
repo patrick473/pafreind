@@ -70,6 +70,14 @@ public class TrainDAO extends BaseDAO {
         }
         return t;
     }
+    public void deleteTrain(Train t){
+        try( Connection con = super.getConnection()){
+
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+    }
 
 
 }

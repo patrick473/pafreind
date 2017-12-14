@@ -3,6 +3,7 @@ package persistency;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import Domain.Component;
 import Domain.Train;
 import Domain.Wagon;
 
@@ -28,12 +29,13 @@ public class WagonTrainDAO extends BaseDAO {
 
 	}
 	
-	public void deleteWagonTrain(Train train) {
+	public void deleteWagonTrain(Train train, Wagon wagon) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
-			PreparedStatement pstmt = myConn.prepareStatement("DELETE FROM wagontrain WHERE trainid = ?");
+			PreparedStatement pstmt = myConn.prepareStatement("DELETE FROM wagontrain WHERE trainid = ? and wagonid = ?");
 			pstmt.setInt(1, train.getTrainID());
+			pstmt.setInt(2,wagon.getWagonID());
 			pstmt.execute();
 			myConn.close();
 		}
