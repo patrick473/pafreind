@@ -14,7 +14,8 @@ public class Test {
         TrainDAO tdao = new TrainDAO();
         bdao.getConnection();
 
-        System.out.println(tdao.getTrains("select * from train"));
+        System.out.println(tdao.findAllTrains());
+        System.out.println(tdao.findTrain(2));
 
         }
     }

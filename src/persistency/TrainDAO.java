@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class TrainDAO extends BaseDAO {
 
     LocomotiveDAO ldao = new LocomotiveDAO();
-    public ArrayList<Train> getTrains(String query){
+    private ArrayList<Train> getTrains(String query){
         ArrayList<Train> results = new ArrayList<Train>();
         try (Connection con = super.getConnection()){
             Statement stmt = con.createStatement();
@@ -39,5 +39,10 @@ public class TrainDAO extends BaseDAO {
         ArrayList<Train> trains =getTrains("select * from train where trainid = "+ trainID);
         Train train = trains.get(0);
         return train;
+    }
+    public ArrayList<Train> findAllTrains(){
+        ArrayList<Train> trains =getTrains("select * from train ");
+
+        return trains;
     }
 }
