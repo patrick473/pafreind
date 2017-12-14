@@ -26,7 +26,8 @@ public class ConsoleInterface {
                     System.out.println("avef");
                     System.out.println(splitcheck[4]);
                     // new wagon type with specified amount of seats
-                    Wagon wagon = new Wagon(splitcheck[2],splitcheck[4]);
+                    int seats = Integer.parseInt(splitcheck[4]);
+                    Wagon wagon = new Wagon(splitcheck[2], seats);
                     wdao.addWagonType(wagon);
                 } else if (s.startsWith("new wagon ")) {
                     System.out.println(s.substring(10));
