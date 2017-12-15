@@ -33,17 +33,19 @@ public class ConsoleInterface {
                     Wagon wagon = new Wagon(splitcheck[2], 20);
                     wdao.addWagonType(wagon);
                 } else if (s.startsWith("add ")&& "to".equals(splitcheck[2])) {
-                    System.out.println(s.substring(4));
-                    System.out.println(splitcheck[3]);
                     // adding existing wagon to existing train
-                    
+                    int trainsrch = Integer.parseInt(splitcheck[3]);
+                    int wagonsrch = Integer.parseInt(splitcheck[1]);
+                    wtdao.addWagonTrain(tdao.findTrain(trainsrch), wdao.findWagon(wagonsrch));
                 } else if (s.startsWith("getnumseats train ")) {
-                    System.out.println(s.substring(18));
                     // get number of seats of existing train
-                    tdao.getTrainSeats(1);
+                    int seatcount = Integer.parseInt(splitcheck[2]);
+                    tdao.getTrainSeats(seatcount);
                 } else if (s.startsWith("getnumseats wagon ")) {
                     System.out.println(s.substring(18));
                     //get number of seats of existing wagon
+                    int wagonseats = Integer.parseInt(splitcheck[2]);
+                    wdao.getWagonSeats(wagonseats);
                 } else if (s.startsWith("delete train ")) {
                     System.out.println(s.substring(13));
                     //delete train, if it doesn't exist dont delete
