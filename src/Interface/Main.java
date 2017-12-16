@@ -247,7 +247,7 @@ public class Main extends Application {
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            	
+
             	//activate input for wagon. If not activated input will be null
             	WagonSeatT.setDisable(false);
                 WagonNameT.setDisable(false);
@@ -255,10 +255,18 @@ public class Main extends Application {
                 
                 //test select
 
-                    String[] splitcheck = newValue.split(" ", 2);
+                if (newValue == null){
+                    newValue = "1 train";
+                }
+                if (newValue == "1 train"){
+                    BtnTrainDelete.setDisable(true);
+                }
+                else{
+                    BtnTrainDelete.setDisable(false);
+                }
+                  String[]  splitstring = newValue.split(" ", 2);
 
-
-                   Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
+                   Train selectedTrain = tdao.findTrain(Integer.parseInt(splitstring[0]));
                     ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
                     WagonItems.clear();
                     for (Wagon i : wagonslist) {
@@ -267,14 +275,18 @@ public class Main extends Application {
                     }
 
                     System.out.println("ListView selection TRAIN changed from oldValue = "
-                            + oldValue + " to newValue = " + splitcheck[1]);
+                            + oldValue + " to newValue = " + splitstring[0]);
 
                 //Button function for deleting selected train
                 BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
                         tdao.deleteTrain(selectedTrain.getTrainID());
-                        TrainItems.clear();
+
+                        try{TrainItems.clear();}
+                        catch (Exception exc){
+
+                        }
                         ArrayList<String> selecteditems = refreshtrainList();
 
                         for (String i : selecteditems
@@ -305,7 +317,7 @@ public class Main extends Application {
                 WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
-                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitcheck[0]));
+                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitstring[0]));
                         //test select
                         if (WagonItems.size() >0) {
 
@@ -375,9 +387,10 @@ public class Main extends Application {
         ArrayList<String> TrainItems = new ArrayList<>();
         ArrayList<Train> trainList = tdao.findAllTrains();
         for(Train i: trainList){
-
-            String value = i.getTrainID() + " "+ i.getName();
-            TrainItems.add(value);
+            if (i.getTrainID() != 1) {
+                String value = i.getTrainID() + " " + i.getName();
+                TrainItems.add(value);
+            }
         }
         return TrainItems;
     }
