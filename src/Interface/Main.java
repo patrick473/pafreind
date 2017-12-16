@@ -246,13 +246,13 @@ public class Main extends Application {
                   String[]  splitstring = newValue.split(" ", 2);
 
                    Train selectedTrain = tdao.findTrain(Integer.parseInt(splitstring[0]));
-                    ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
-                    WagonItems.clear();
-                    for (Wagon i : wagonslist) {
-                        String value = i.getWagonID() + " " + i.getName();
-                        WagonItems.add(value);
-                    }
 
+                WagonItems.clear();
+                for (String i : refreshWagonList(selectedTrain)
+                        ) {
+                    WagonItems.add(i);
+
+                }
                     System.out.println("ListView selection TRAIN changed from oldValue = "
                             + oldValue + " to newValue = " + splitstring[0]);
 
@@ -296,15 +296,29 @@ public class Main extends Application {
                 WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
-                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitstring[0]));
+
+
+                        if (newValueWagon == null){
+                            newValueWagon = "1 Wagon";
+                        }
+                        if (newValueWagon == "1 Wagon"){
+                            BtnTrainDelete.setDisable(true);
+                        }
+                        else{
+                            BtnTrainDelete.setDisable(false);
+                        }
+
+                        String[] splitcheck = newValueWagon.split(" ", 2);
+                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitcheck[0]));
                         //test select
-                        if (WagonItems.size() >0) {
+
+
 
                             System.out.println("ListView selection WAGON changed from oldValue = "
                                     + oldValue + " to newValue = " + newValueWagon);
 
-                            String[] splitcheck = newValueWagon.split(" ", 2);
-                        }
+
+
 
                         //button function for deleting selected wagon
                         BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {
@@ -326,32 +340,31 @@ public class Main extends Application {
                     }
 
                 });
-
-                BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
+                WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
-                    public void handle(ActionEvent e) {
-                        //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
 
-                        for (String i : selecteditems
-                                ) {
-                            WagonItems.add(i);
+                        BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                //Wat moet Delete Wagon button doen??? <-----------------------------------------------
 
-                        }
+
+
+
+                            }
+                        });
+
                     }
                 });
+
+
             }
 
         });
 
-        WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
-
-
-            }
-        });
         //Btntrain function
         BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -431,9 +444,10 @@ public class Main extends Application {
         ArrayList<String> WagontypeItems = new ArrayList<>();
         List<Wagon> wagonTypeList = wdao.selectAllWagonTypes();
         for(Wagon i: wagonTypeList){
-
-            String value = i.getWagonID() + " "+ i.getName();
-            WagontypeItems.add(value);
+            if (i.getWagonID() != 1) {
+                String value = i.getWagonID() + " " + i.getName();
+                WagontypeItems.add(value);
+            }
         }
         return WagontypeItems;
     }
@@ -442,8 +456,10 @@ public class Main extends Application {
         ArrayList<String> WagonItems = new ArrayList<>();
         ArrayList<Wagon> WagonList = wdao.getWagonFromTrain(train);
         for(Wagon i: WagonList){
-            String value = i.getWagonID() + " "+ i.getName();
-            WagonItems.add(value);
+
+                String value = i.getWagonID() + " " + i.getName();
+                WagonItems.add(value);
+
         }
         return WagonItems;
     }
