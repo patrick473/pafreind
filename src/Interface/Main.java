@@ -3,6 +3,8 @@ package Interface;
 import java.awt.Color;
 import java.util.function.UnaryOperator;
 
+import Domain.Train;
+import Domain.Wagon;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,12 +37,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
+import persistency.TrainDAO;
+import persistency.WagonTypeDAO;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-    	
+        TrainDAO tdao = new TrainDAO();
+        WagonTypeDAO wdao = new WagonTypeDAO();
+
+
+
     	//adjust location of scene components here. Watch out: they can conflict with each other.
     	Integer SceneTitleRow = 34;
     	Integer SceneTitleColumn = 0;
@@ -102,7 +110,7 @@ public class Main extends Application {
         
         //Input for wagon name
         TextField WagonNameT = new TextField();
-        WagonNameT.setDisable(true);
+
         grid.add(WagonNameT,WagonNameColumn+1, WagonNameRow);
         
         //label infornt of input for amount of seats
@@ -111,7 +119,7 @@ public class Main extends Application {
         
         //Input for amount of seats. ONLY NUMBERS ALLOWED
         TextField WagonSeatT = new TextField();
-        WagonSeatT.setDisable(true);
+
         grid.add(WagonSeatT,WagonNameColumn+3, WagonNameRow);
         
         //Button to activate the function for deleting a wagon
@@ -141,6 +149,8 @@ public class Main extends Application {
             	String TrainNameInput = TrainNameT.getText();
             	String LocomotiveNameInput = LocomotiveNameT.getText();
                 //Wat moet add trein button doen??? <----------------------------------------------------
+                Train train = new Train(TrainNameInput);
+                tdao.createTrain(train,LocomotiveNameInput);
             }
         });
         
@@ -163,7 +173,8 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
             	String WagonNameInput = WagonNameT.getText();
             	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
-                //Wat moet add Wagon button doen??? <-----------------------------------------------
+            	Wagon wagon = new Wagon(WagonNameInput,WagonSeatInput);
+                wdao.addWagonType(wagon);
             }
         });
         
