@@ -54,7 +54,7 @@ public class Main extends Application {
     	TrainDAO tdao = new TrainDAO();
     	WagonTrainDAO wtdao = new WagonTrainDAO();
     	WagonTypeDAO wdao = new WagonTypeDAO();
-
+        Train selectedTrain = null;
     	
 
 
@@ -213,22 +213,12 @@ public class Main extends Application {
         //List select listner for wagon
         WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
             	
             	//test select
                 System.out.println("ListView selection WAGON changed from oldValue = "
-                        + oldValue + " to newValue = " + newValue);
+                        + oldValue + " to newValue = " + newValueWagon);
 
-                ArrayList<Wagon> wagonsList =  new ArrayList<Wagon>();
-
-                String[] splitcheck = newValue.split(" ",2);
-                Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
-                ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
-                WagonItems.clear();
-                for (Wagon i: wagonslist) {
-                    String value = i.getWagonID() + " "+ i.getName();
-                    WagonItems.add(value);
-                }
 
 
 
@@ -271,11 +261,11 @@ public class Main extends Application {
                 WagonList.setDisable(false);
                 
                 //test select
-                if (newValue != null) {
+
                     String[] splitcheck = newValue.split(" ", 2);
 
 
-                    Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
+                   Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
                     ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
                     WagonItems.clear();
                     for (Wagon i : wagonslist) {
@@ -303,7 +293,7 @@ public class Main extends Application {
 
 
 
-                });}
+                });
                 
                 //Button function of BtnWagon
                 BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
