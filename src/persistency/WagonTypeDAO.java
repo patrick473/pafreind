@@ -55,8 +55,8 @@ public class WagonTypeDAO extends BaseDAO {
 		}
 		return wagontypelist;
 	}
-    public Wagon findWagon(Integer trainID){
-        List<Wagon> wagons =findAllWagonTypes("select * from wagon where \"wagonid\" = "+ trainID);
+    public Wagon findWagon(Integer wagonID){
+        List<Wagon> wagons =findAllWagonTypes("select * from wagontype where \"wagonID\" = "+ wagonID);
         Wagon wagon = wagons.get(0);
         return wagon;
     }
@@ -66,7 +66,7 @@ public class WagonTypeDAO extends BaseDAO {
     	try {
 			Connection myConn = BaseDAO.getConnection();
 
-			PreparedStatement pstmt = myConn.prepareStatement("SELECT amountofseats FROM wagon WHERE wagonid = ?");
+			PreparedStatement pstmt = myConn.prepareStatement("SELECT amountofseats FROM wagontype WHERE \"wagonID\" = ?");
 			pstmt.setInt(1, wagonid);
 			pstmt.executeQuery();
 

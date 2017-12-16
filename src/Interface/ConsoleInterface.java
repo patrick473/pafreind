@@ -25,27 +25,30 @@ public class ConsoleInterface {
                 if (s.startsWith("new train ")) {
                     System.out.println(s.substring(10));
 
-                } else if (s.startsWith("new wagon ") && "numseats".equals(splitcheck[3])) {
-                    int seats = Integer.parseInt(splitcheck[4]);
-                    Wagon wagon = new Wagon(splitcheck[2], seats);
-                    wdao.addWagonType(wagon);
+                } else if (s.startsWith("new wagon ") && splitcheck.length >3) {
+                    if ("numseats".equals(splitcheck[3])) {
+                        int seats = Integer.parseInt(splitcheck[4]);
+                        Wagon wagon = new Wagon(splitcheck[2], seats);
+                        wdao.addWagonType(wagon);
+                    }
                 } else if (s.startsWith("new wagon ")) {
+
                     Wagon wagon = new Wagon(splitcheck[2], 20);
                     wdao.addWagonType(wagon);
-                } else if (s.startsWith("add ")&& "to".equals(splitcheck[2])) {
+                } else if (s.startsWith("add wagon ")&& "to".equals(splitcheck[3])) {
                     // adding existing wagon to existing train
-                    int trainsrch = Integer.parseInt(splitcheck[3]);
-                    int wagonsrch = Integer.parseInt(splitcheck[1]);
+                    int trainsrch = Integer.parseInt(splitcheck[4]);
+                    int wagonsrch = Integer.parseInt(splitcheck[2]);
                     wtdao.addWagonTrain(tdao.findTrain(trainsrch), wdao.findWagon(wagonsrch));
                 } else if (s.startsWith("getnumseats train ")) {
                     // get number of seats of existing train
                     int seatcount = Integer.parseInt(splitcheck[2]);
-                    tdao.getTrainSeats(seatcount);
+                    System.out.println(tdao.getTrainSeats(seatcount));
                 } else if (s.startsWith("getnumseats wagon ")) {
-                    System.out.println(s.substring(18));
+
                     //get number of seats of existing wagon
                     int wagonseats = Integer.parseInt(splitcheck[2]);
-                    wdao.getWagonSeats(wagonseats);
+                    System.out.println(wdao.getWagonSeats(wagonseats));
                 } else if (s.startsWith("delete train ")) {
                     System.out.println(s.substring(13));
                     //delete train, if it doesn't exist dont delete
@@ -57,7 +60,7 @@ public class ConsoleInterface {
                 }
             }
             catch (ArrayIndexOutOfBoundsException aioobe){
-                System.out.println("fout");
+                aioobe.printStackTrace();
             }
             s = sc.nextLine();
 

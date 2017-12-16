@@ -85,15 +85,15 @@ public class TrainDAO extends BaseDAO {
 			Connection myConn = BaseDAO.getConnection();
 
 			PreparedStatement pstmt = myConn
-					.prepareStatement("SELECT amountofseats FROM wagontype WHERE wagontrain.trainid = ? "
-							+ "AND wagontype.wagonid = wagontrain.wagonid ");
+					.prepareStatement("SELECT amountofseats FROM wagontype, wagontrain WHERE wagontrain.\"trainID\" = ? "
+							+ "AND wagontype.\"wagonID\" = wagontrain.\"wagonID\" ");
 			pstmt.setInt(1, trainid);
 			pstmt.executeQuery();
 
 			ResultSet rs = pstmt.getResultSet();
 			while (rs.next()) {
-				String seats = rs.getString("amountofseats");
-				result = Integer.parseInt(seats);
+				Integer seats = rs.getInt("amountofseats");
+				result  += seats;
 
 			}
 
