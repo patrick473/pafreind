@@ -21,9 +21,7 @@ public class Test {
         WagonTypeDAO wdao = new WagonTypeDAO();
         WagonTrainDAO wtdao = new WagonTrainDAO();
 
-        ArrayList<Component> components = new ArrayList<Component>();
-        Train train = new Train(1,components,"geert");
-       System.out.println(wtdao.getWagonFromTrain(train));
+        bdao.getConnection();
         }
     }
 

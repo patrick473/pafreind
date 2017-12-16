@@ -199,8 +199,10 @@ public class Main extends Application {
         //Create list view and title of the list for wagon
         ListView<String> WagonList = new ListView<String>();
         ListView<String> TrainList = new ListView<String>();
+        ListView<String> WagonTypeList = new ListView<String>();
         ObservableList<String> WagonItems = FXCollections.observableArrayList(); // PUT WAGON NAMES OF SELECTED TRAIN HERE <----------------------
-
+        ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
+        ObservableList<String> WagonTypeItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
 
 
         WagonList.setItems(WagonItems);
@@ -208,15 +210,19 @@ public class Main extends Application {
         Label WagonListL = new Label("Wagons of selected train");
         WagonListL .setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
         WagonList.setDisable(true);
-        grid.add(WagonListL, 4, 37);
-        grid.add(WagonList, 4, 38, 20, 1);
+        grid.add(WagonListL, 3, 37);
+        grid.add(WagonList, 3, 38, 2, 1);
 
-        //List select listner for wagon
-
-        
+        WagonTypeList.setItems(WagonTypeItems);
+        WagonTypeList.setPrefHeight(200);
+        Label WagonTypeListL = new Label("Add wagon to selected train");
+        WagonTypeListL .setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
+        WagonTypeList.setDisable(true);
+        grid.add(WagonTypeListL, 5, 37);
+        grid.add(WagonTypeList, 5, 38, 2, 1);
         //Create list view and title of the list for train
 
-        ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
+
 
         ArrayList<String> selecteditems = refreshtrainList();
 
@@ -229,7 +235,7 @@ public class Main extends Application {
         Label TrainListL = new Label("Select to add wagons or remove train");
         TrainListL.setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
         grid.add(TrainListL, 1, 37);
-        grid.add(TrainList, 1, 38, 3, 1);
+        grid.add(TrainList, 1, 38, 2, 1);
         
         //List select listner for train
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -286,6 +292,10 @@ public class Main extends Application {
                         //wdao.addWagonTrain(//TRAIN OBJECT HERE, WagonObject);
                     }
                 });
+
+                //List select listner for wagon
+
+
                 WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
@@ -319,8 +329,20 @@ public class Main extends Application {
                     }
                 });
             }
+            
         });
-        
+
+        WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+
+
+            }
+        });
+
+
+
         //create locomotive
         String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
         Image ImageLoco = new Image(UrlLoco, true);
