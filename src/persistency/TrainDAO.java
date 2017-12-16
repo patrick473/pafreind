@@ -54,7 +54,7 @@ public class TrainDAO extends BaseDAO {
 	}
 
 	public Train findLatestTrain() {
-		ArrayList<Train> trains = getTrains("SELECT * FROM train ORDER BY \"trainID\" DESC limit 1 ");
+		ArrayList<Train> trains = getTrains("SELECT * FROM train ORDER BY \"trainid\" DESC limit 1 ");
 		Train train = trains.get(0);
 		return train;
 	}
@@ -103,9 +103,11 @@ public class TrainDAO extends BaseDAO {
 		return result;
 	}
 
-	public void deleteTrain(Train t) {
+	public void deleteTrain(Integer trainID) {
 		try (Connection con = super.getConnection()) {
-
+            Statement stmt = con.createStatement();
+            String query = "delete from train where \"trainid\" = "+ trainID;
+            stmt.executeUpdate(query);
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
