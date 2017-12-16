@@ -216,10 +216,21 @@ public class Main extends Application {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
             	
             	//test select
-                System.out.println("ListView selection WAGON changed from oldValue = " 
+                System.out.println("ListView selection WAGON changed from oldValue = "
                         + oldValue + " to newValue = " + newValue);
 
                 ArrayList<Wagon> wagonsList =  new ArrayList<Wagon>();
+
+                String[] splitcheck = newValue.split(" ",2);
+                Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
+                ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
+                WagonItems.clear();
+                for (Wagon i: wagonslist) {
+                    String value = i.getWagonID() + " "+ i.getName();
+                    WagonItems.add(value);
+                }
+
+
 
                 //button function for deleting selected wagon
                 BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
@@ -236,11 +247,12 @@ public class Main extends Application {
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
 
-        ArrayList<Train> trainList = tdao.findAllTrains();
-        for(Train i: trainList){
-            String value = i.getTrainID() + " "+ i.getName();
-            TrainItems.add(value);
-       }
+        ArrayList<String> selecteditems = refreshtrainList();
+
+        for (String i: selecteditems
+                ) {
+            TrainItems.add(i);
+        }
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
         Label TrainListL = new Label("Select to add wagons or remove train");
@@ -259,25 +271,39 @@ public class Main extends Application {
                 WagonList.setDisable(false);
                 
                 //test select
-                String[] splitcheck = newValue.split(" ",2);
-                Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
-                ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
-                WagonItems.clear();
-                for (Wagon i: wagonslist) {
-                    String value = i.getWagonID() + " "+ i.getName();
-                    WagonItems.add(value);
-                }
+                if (newValue != null) {
+                    String[] splitcheck = newValue.split(" ", 2);
 
-                System.out.println("ListView selection TRAIN changed from oldValue = " 
-                        + oldValue + " to newValue = " + splitcheck[1]);
-                
+
+                    Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
+                    ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
+                    WagonItems.clear();
+                    for (Wagon i : wagonslist) {
+                        String value = i.getWagonID() + " " + i.getName();
+                        WagonItems.add(value);
+                    }
+
+                    System.out.println("ListView selection TRAIN changed from oldValue = "
+                            + oldValue + " to newValue = " + splitcheck[1]);
+
                 //Button function for deleting selected train
-                BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
+                BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        //Wat moet Delete Train button doen??? <-----------------------------------------------
+                        tdao.deleteTrain(selectedTrain.getTrainID());
+                        TrainItems.clear();
+                        ArrayList<String> selecteditems = refreshtrainList();
+
+                        for (String i : selecteditems
+                                ) {
+                            TrainItems.add(i);
+
+                        }
                     }
-                });
+
+
+
+                });}
                 
                 //Button function of BtnWagon
                 BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
@@ -310,11 +336,24 @@ public class Main extends Application {
         ImageViewWagon1.setFitWidth(250);
         ImageViewWagon1.setVisible(true); //<--------- hide wagon if no wagon exists.
         grid.add(ImageViewWagon1, WagonLocoPicCol+1, WagonLocoPicRow); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
-        
-    }
 
+
+
+    }
+    public ArrayList<String> refreshtrainList(){
+        TrainDAO tdao = new TrainDAO();
+        ArrayList<String> TrainItems = new ArrayList<>();
+        ArrayList<Train> trainList = tdao.findAllTrains();
+        for(Train i: trainList){
+            String value = i.getTrainID() + " "+ i.getName();
+            TrainItems.add(value);
+        }
+        return TrainItems;
+    }
     //Lift of for application
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }
