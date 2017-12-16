@@ -56,12 +56,14 @@ public class Main extends Application {
     	WagonTrainDAO wtdao = new WagonTrainDAO();
     	WagonTypeDAO wdao = new WagonTypeDAO();
 
-    	
+        String UrlWagon1 = "https://us.123rf.com/450wm/studioworkstock/studioworkstock1611/studioworkstock161100145/67173618-railway-wagon-isolated-on-white-background-vector-illustration-railroad-transport-design-element-sid.jpg?ver=6";
+        String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
 
 
 
 
-    	//adjust location of scene components here. Watch out: they can conflict with each other.
+
+        //adjust location of scene components here. Watch out: they can conflict with each other.
     	Integer SceneTitleRow = 34;
     	Integer SceneTitleColumn = 0;
     	Integer TrainNameColumn = 1;
@@ -81,8 +83,8 @@ public class Main extends Application {
         primaryStage.show();
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT );
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setHgap(4);
+        grid.setVgap(2);
         //grid.setPadding(new Insets(25, 25, 25, 25)); only activate if you want some nice padding. extra THICC.
         
         //how big does the screen need to be?
@@ -195,7 +197,7 @@ public class Main extends Application {
 
         WagonTypeList.setItems(WagonTypeItems);
         WagonTypeList.setPrefHeight(200);
-        Label WagonTypeListL = new Label("Add wagon to selected train");
+        Label WagonTypeListL = new Label("Add wagon to train");
         WagonTypeListL .setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
 
         grid.add(WagonTypeListL, 5, 37);
@@ -221,7 +223,74 @@ public class Main extends Application {
         TrainListL.setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
         grid.add(TrainListL, 1, 37);
         grid.add(TrainList, 1, 38, 2, 1);
-        
+
+
+        //create locomotive
+
+        Image ImageLoco = new Image(UrlLoco, true);
+        ImageView ImageViewLoco = new ImageView(ImageLoco);
+        ImageViewLoco.setFitHeight(200);
+        ImageViewLoco.setFitWidth(250);
+        ImageViewLoco.setVisible(false); //<------------ Hide Locomotive if no train is selected;
+        grid.add(ImageViewLoco, WagonLocoPicCol, WagonLocoPicRow);
+
+
+
+        //create wagon
+        Image ImageWagon1 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon1 = new ImageView(ImageWagon1);
+        ImageViewWagon1.setFitHeight(200);
+        ImageViewWagon1.setFitWidth(250);
+        ImageViewWagon1.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon1, WagonLocoPicCol+1, WagonLocoPicRow); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+        Image ImageWagon2 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon2 = new ImageView(ImageWagon2);
+        ImageViewWagon2.setFitHeight(200);
+        ImageViewWagon2.setFitWidth(250);
+        ImageViewWagon2.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon2, WagonLocoPicCol+2, WagonLocoPicRow); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+        Image ImageWagon3 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon3 = new ImageView(ImageWagon3);
+        ImageViewWagon3.setFitHeight(200);
+        ImageViewWagon3.setFitWidth(250);
+        ImageViewWagon3.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon3, WagonLocoPicCol+3, WagonLocoPicRow); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+
+
+
+
+        Image ImageWagon4 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon4 = new ImageView(ImageWagon4);
+        ImageViewWagon4.setFitHeight(200);
+        ImageViewWagon4.setFitWidth(250);
+        ImageViewWagon4.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon4, WagonLocoPicCol, WagonLocoPicRow+1); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+        Image ImageWagon5 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon5 = new ImageView(ImageWagon5);
+        ImageViewWagon5.setFitHeight(200);
+        ImageViewWagon5.setFitWidth(250);
+        ImageViewWagon5.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon5, WagonLocoPicCol+1, WagonLocoPicRow+1); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+        Image ImageWagon6 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon6 = new ImageView(ImageWagon6);
+        ImageViewWagon6.setFitHeight(200);
+        ImageViewWagon6.setFitWidth(250);
+        ImageViewWagon6.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon6, WagonLocoPicCol+2, WagonLocoPicRow+1); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+        Image ImageWagon7 = new Image(UrlWagon1, true);
+        ImageView ImageViewWagon7 = new ImageView(ImageWagon7);
+        ImageViewWagon7.setFitHeight(200);
+        ImageViewWagon7.setFitWidth(250);
+        ImageViewWagon7.setVisible(false); //<--------- hide wagon if no wagon exists.
+        grid.add(ImageViewWagon7, WagonLocoPicCol+3, WagonLocoPicRow+1); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
+
+
         //List select listner for train
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -239,11 +308,15 @@ public class Main extends Application {
                 }
                 if (newValue == "1 train"){
                     BtnTrainDelete.setDisable(true);
+                    ImageViewLoco.setVisible(false);
                 }
                 else{
                     BtnTrainDelete.setDisable(false);
+                    ImageViewLoco.setVisible(true);
                 }
-                  String[]  splitstring = newValue.split(" ", 2);
+
+
+                String[]  splitstring = newValue.split(" ", 2);
 
                    Train selectedTrain = tdao.findTrain(Integer.parseInt(splitstring[0]));
 
@@ -252,6 +325,37 @@ public class Main extends Application {
                         ) {
                     WagonItems.add(i);
 
+                }
+
+                Integer listSize = WagonItems.size();
+                ImageViewWagon1.setVisible(false);
+                ImageViewWagon2.setVisible(false);
+                ImageViewWagon3.setVisible(false);
+                ImageViewWagon4.setVisible(false);
+                ImageViewWagon5.setVisible(false);
+                ImageViewWagon6.setVisible(false);
+                ImageViewWagon7.setVisible(false);
+
+                if (listSize > 0){
+                    ImageViewWagon1.setVisible(true);
+                }
+                if (listSize > 1){
+                    ImageViewWagon2.setVisible(true);
+                }
+                if (listSize > 2){
+                    ImageViewWagon3.setVisible(true);
+                }
+                if (listSize > 3){
+                    ImageViewWagon4.setVisible(true);
+                }
+                if (listSize > 4){
+                    ImageViewWagon5.setVisible(true);
+                }
+                if (listSize > 5){
+                    ImageViewWagon6.setVisible(true);
+                }
+                if (listSize > 6){
+                    ImageViewWagon7.setVisible(true);
                 }
                     System.out.println("ListView selection TRAIN changed from oldValue = "
                             + oldValue + " to newValue = " + splitstring[0]);
@@ -302,11 +406,13 @@ public class Main extends Application {
                             newValueWagon = "1 Wagon";
                         }
                         if (newValueWagon == "1 Wagon"){
-                            BtnTrainDelete.setDisable(true);
+                            BtnWagonDelete.setDisable(true);
                         }
                         else{
-                            BtnTrainDelete.setDisable(false);
+                            BtnWagonDelete.setDisable(false);
                         }
+
+
 
                         String[] splitcheck = newValueWagon.split(" ", 2);
                         Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitcheck[0]));
@@ -325,6 +431,7 @@ public class Main extends Application {
                             @Override
                             public void handle(ActionEvent e) {
                                 //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+
                                 wtdao.deleteWagonTrain(selectedTrain,selectedWagon);
                                 WagonItems.clear();
                                 ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
@@ -334,6 +441,36 @@ public class Main extends Application {
                                     WagonItems.add(i);
 
                                 }
+                                Integer listSize = WagonItems.size();
+                                ImageViewWagon1.setVisible(false);
+                                ImageViewWagon2.setVisible(false);
+                                ImageViewWagon3.setVisible(false);
+                                ImageViewWagon4.setVisible(false);
+                                ImageViewWagon5.setVisible(false);
+                                ImageViewWagon6.setVisible(false);
+                                ImageViewWagon7.setVisible(false);
+
+                                if (listSize > 0){
+                                    ImageViewWagon1.setVisible(true);
+                                }
+                                if (listSize > 1){
+                                    ImageViewWagon2.setVisible(true);
+                                }
+                                if (listSize > 2){
+                                    ImageViewWagon3.setVisible(true);
+                                }
+                                if (listSize > 3){
+                                    ImageViewWagon4.setVisible(true);
+                                }
+                                if (listSize > 4){
+                                    ImageViewWagon5.setVisible(true);
+                                }
+                                if (listSize > 5){
+                                    ImageViewWagon6.setVisible(true);
+                                }
+                                if (listSize > 6){
+                                    ImageViewWagon7.setVisible(true);
+                                }
                             }
                         });
 
@@ -342,16 +479,65 @@ public class Main extends Application {
                 });
                 WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
-                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagonType) {
 
+
+                        if (newValueWagonType == null){
+                            newValueWagonType= "1 Wagon";
+                        }
+                        if (newValueWagonType == "1 Wagon"){
+                            BtnAddWagonToTrain.setDisable(true);
+                        }
+                        else{
+                            BtnAddWagonToTrain.setDisable(false);
+                        }
+
+                        String[] splitstringcheck = newValueWagonType.split(" ", 2);
 
                         BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                //Wat moet Delete Wagon button doen??? <-----------------------------------------------
 
+                               Wagon wagontype = wdao.findWagon(Integer.parseInt(splitstringcheck[0]));
+                                    wtdao.addWagonTrain(selectedTrain,wagontype);
+                                    WagonItems.clear();
+                                ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
 
+                                for (String i : selecteditems
+                                        ) {
+                                    WagonItems.add(i);
 
+                                }
+                                Integer listSize = WagonItems.size();
+                                ImageViewWagon1.setVisible(false);
+                                ImageViewWagon2.setVisible(false);
+                                ImageViewWagon3.setVisible(false);
+                                ImageViewWagon4.setVisible(false);
+                                ImageViewWagon5.setVisible(false);
+                                ImageViewWagon6.setVisible(false);
+                                ImageViewWagon7.setVisible(false);
+
+                                if (listSize > 0){
+                                    ImageViewWagon1.setVisible(true);
+                                }
+                                if (listSize > 1){
+                                    ImageViewWagon2.setVisible(true);
+                                }
+                                if (listSize > 2){
+                                    ImageViewWagon3.setVisible(true);
+                                }
+                                if (listSize > 3){
+                                    ImageViewWagon4.setVisible(true);
+                                }
+                                if (listSize > 4){
+                                    ImageViewWagon5.setVisible(true);
+                                }
+                                if (listSize > 5){
+                                    ImageViewWagon6.setVisible(true);
+                                }
+                                if (listSize > 6){
+                                    ImageViewWagon7.setVisible(true);
+                                }
 
                             }
                         });
@@ -390,6 +576,7 @@ public class Main extends Application {
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+
                 String WagonNameInput = WagonNameT.getText();
                 Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
                 Wagon wagon = new Wagon(WagonNameInput,WagonSeatInput);
@@ -404,26 +591,6 @@ public class Main extends Application {
                 }
             }
         });
-
-
-        //create locomotive
-        String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
-        Image ImageLoco = new Image(UrlLoco, true);
-        ImageView ImageViewLoco = new ImageView(ImageLoco);
-        ImageViewLoco.setFitHeight(200);
-        ImageViewLoco.setFitWidth(250);
-        ImageViewLoco.setVisible(true); //<------------ Hide Locomotive if no train is selected;
-        grid.add(ImageViewLoco, WagonLocoPicCol, WagonLocoPicRow);
-        
-        //create wagon
-        String UrlWagon1 = "https://us.123rf.com/450wm/studioworkstock/studioworkstock1611/studioworkstock161100145/67173618-railway-wagon-isolated-on-white-background-vector-illustration-railroad-transport-design-element-sid.jpg?ver=6";
-        Image ImageWagon1 = new Image(UrlWagon1, true);
-        ImageView ImageViewWagon1 = new ImageView(ImageWagon1);
-        ImageViewWagon1.setFitHeight(200);
-        ImageViewWagon1.setFitWidth(250);
-        ImageViewWagon1.setVisible(true); //<--------- hide wagon if no wagon exists.
-        grid.add(ImageViewWagon1, WagonLocoPicCol+1, WagonLocoPicRow); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
-
 
 
     }
