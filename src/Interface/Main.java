@@ -3,6 +3,8 @@ package Interface;
 import java.awt.Color;
 import java.util.function.UnaryOperator;
 
+import Domain.Train;
+import Domain.Wagon;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,11 +37,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
+import persistency.LocomotiveDAO;
+import persistency.TrainDAO;
+import persistency.WagonTrainDAO;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+    	
+    	LocomotiveDAO ldao = new LocomotiveDAO();
+    	TrainDAO tdao = new TrainDAO();
+    	WagonTrainDAO wdao = new WagonTrainDAO();
     	
     	//adjust location of scene components here. Watch out: they can conflict with each other.
     	Integer SceneTitleRow = 34;
@@ -140,7 +149,8 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
             	String TrainNameInput = TrainNameT.getText();
             	String LocomotiveNameInput = LocomotiveNameT.getText();
-                //Wat moet add trein button doen??? <----------------------------------------------------
+            	Train TrainObject = new Train(TrainNameInput);
+            	tdao.createTrain(TrainObject, LocomotiveNameInput);
             }
         });
         
@@ -156,16 +166,6 @@ public class Main extends Application {
         //turn wagonseat into Integer value
         WagonSeatT.setTextFormatter(
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
-
-        //Button function of BtnWagon
-        BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
-            @Override
-            public void handle(ActionEvent e) {
-            	String WagonNameInput = WagonNameT.getText();
-            	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
-                //Wat moet add Wagon button doen??? <-----------------------------------------------
-            }
-        });
         
         //Create list view and title of the list for wagon
         ListView<String> WagonList = new ListView<String>();
@@ -201,8 +201,10 @@ public class Main extends Application {
         
         //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
-        ObservableList<String> TrainItems =FXCollections.observableArrayList (
-            "Train1", "Train2", "Train3", "Train4"); //PUT TRAIN NAMES HERE <-------------------------------------
+        ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
+        for(int i=1; i<tdao.findAllTrains().size(); i++){
+            TrainItems.add(tdao.findAllTrains().get(i).getName());
+       }
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
         Label TrainListL = new Label("Select to add wagons or remove train");
@@ -229,6 +231,17 @@ public class Main extends Application {
                     @Override
                     public void handle(ActionEvent e) {
                         //Wat moet Delete Train button doen??? <-----------------------------------------------
+                    }
+                });
+                
+                //Button function of BtnWagon
+                BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
+                    @Override
+                    public void handle(ActionEvent e) {
+                    	String WagonNameInput = WagonNameT.getText();
+                    	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
+                    	Wagon WagonObject = new Wagon(WagonNameInput, WagonSeatInput);
+                        //wdao.addWagonTrain(//TRAIN OBJECT HERE, WagonObject);
                     }
                 });
                 
