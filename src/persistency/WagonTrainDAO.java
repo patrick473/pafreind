@@ -65,5 +65,26 @@ public class WagonTrainDAO extends BaseDAO {
 		}
 
 	}
+	public ArrayList<Wagon> getWagonFromTrain(Train train){
+        ArrayList<Wagon> results = new ArrayList<Wagon>();
+        try (Connection con = super.getConnection()){
+            Statement stmt = con.createStatement();
+            ResultSet dbresultSet = stmt.executeQuery("select \"wagonID\" from wagontrain where \"trainID\" ="+train.getTrainID());
+            while (dbresultSet.next()){
+                Integer wagon = dbresultSet.getInt("wagonID");
+               Wagon SelectedWagon = wdao.findWagon(wagon);
+
+
+
+
+                results.add(SelectedWagon);
+
+            }
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+        }
+        return results;
+    }
 
 }

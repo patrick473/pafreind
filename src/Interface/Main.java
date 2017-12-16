@@ -196,8 +196,10 @@ public class Main extends Application {
         
         //Create list view and title of the list for wagon
         ListView<String> WagonList = new ListView<String>();
-        ObservableList<String> WagonItems = FXCollections.observableArrayList(
-        		"Wagon1", "Wagon2", "Wagon3", "Wagon4"); // PUT WAGON NAMES OF SELECTED TRAIN HERE <----------------------
+        ObservableList<String> WagonItems = FXCollections.observableArrayList(); // PUT WAGON NAMES OF SELECTED TRAIN HERE <----------------------
+
+
+
         WagonList.setItems(WagonItems);
         WagonList.setPrefHeight(200);
         Label WagonListL = new Label("Wagons of selected train");
@@ -214,7 +216,9 @@ public class Main extends Application {
             	//test select
                 System.out.println("ListView selection WAGON changed from oldValue = " 
                         + oldValue + " to newValue = " + newValue);
-                
+
+                ArrayList<Wagon> wagonsList =  new ArrayList<Wagon>();
+             
                 //button function for deleting selected wagon
                 BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
                     @Override
