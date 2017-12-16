@@ -235,8 +235,8 @@ public class Main extends Application {
         //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
-        ArrayList<Train> trainList = new ArrayList<>();
-        trainList = tdao.findAllTrains();
+
+        ArrayList<Train> trainList = tdao.findAllTrains();
         for(Train i: trainList){
             String value = i.getTrainID() + " "+ i.getName();
             TrainItems.add(value);
