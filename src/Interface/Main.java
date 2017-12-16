@@ -1,6 +1,7 @@
 package Interface;
 
-import java.awt.Color;
+
+import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 
 import Domain.Train;
@@ -12,18 +13,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -31,38 +29,35 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
-<<<<<<< HEAD
+
 import persistency.LocomotiveDAO;
 import persistency.TrainDAO;
 import persistency.WagonTrainDAO;
-=======
-import persistency.TrainDAO;
 import persistency.WagonTypeDAO;
->>>>>>> ccaff9e2c46263054c6927e5a7ce19fbc96d38dc
+
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-<<<<<<< HEAD
+
     	
     	LocomotiveDAO ldao = new LocomotiveDAO();
     	TrainDAO tdao = new TrainDAO();
-    	WagonTrainDAO wdao = new WagonTrainDAO();
+    	WagonTrainDAO wtdao = new WagonTrainDAO();
+    	WagonTypeDAO wdao = new WagonTypeDAO();
+
     	
-=======
-        TrainDAO tdao = new TrainDAO();
-        WagonTypeDAO wdao = new WagonTypeDAO();
 
 
 
->>>>>>> ccaff9e2c46263054c6927e5a7ce19fbc96d38dc
+
     	//adjust location of scene components here. Watch out: they can conflict with each other.
     	Integer SceneTitleRow = 34;
     	Integer SceneTitleColumn = 0;
@@ -162,14 +157,14 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
             	String TrainNameInput = TrainNameT.getText();
             	String LocomotiveNameInput = LocomotiveNameT.getText();
-<<<<<<< HEAD
+
             	Train TrainObject = new Train(TrainNameInput);
             	tdao.createTrain(TrainObject, LocomotiveNameInput);
-=======
+
                 //Wat moet add trein button doen??? <----------------------------------------------------
                 Train train = new Train(TrainNameInput);
                 tdao.createTrain(train,LocomotiveNameInput);
->>>>>>> ccaff9e2c46263054c6927e5a7ce19fbc96d38dc
+
             }
         });
         
@@ -185,8 +180,7 @@ public class Main extends Application {
         //turn wagonseat into Integer value
         WagonSeatT.setTextFormatter(
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
-<<<<<<< HEAD
-=======
+
 
         //Button function of BtnWagon
         BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
@@ -198,7 +192,7 @@ public class Main extends Application {
                 wdao.addWagonType(wagon);
             }
         });
->>>>>>> ccaff9e2c46263054c6927e5a7ce19fbc96d38dc
+
         
         //Create list view and title of the list for wagon
         ListView<String> WagonList = new ListView<String>();
@@ -235,8 +229,10 @@ public class Main extends Application {
         //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
-        for(int i=1; i<tdao.findAllTrains().size(); i++){
-            TrainItems.add(tdao.findAllTrains().get(i).getName());
+        ArrayList<Train> trainListDieVolgensTimNietUitDeDatabaseKomt = new ArrayList<>();
+        trainListDieVolgensTimNietUitDeDatabaseKomt = tdao.findAllTrains();
+        for(int i=1; i<trainListDieVolgensTimNietUitDeDatabaseKomt.size(); i++){
+            TrainItems.add(trainListDieVolgensTimNietUitDeDatabaseKomt.get(i).getName());
        }
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
