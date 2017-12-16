@@ -42,6 +42,8 @@ import persistency.WagonTrainDAO;
 import persistency.WagonTypeDAO;
 
 
+
+
 public class Main extends Application {
 
     @Override
@@ -218,7 +220,7 @@ public class Main extends Application {
                         + oldValue + " to newValue = " + newValue);
 
                 ArrayList<Wagon> wagonsList =  new ArrayList<Wagon>();
-             
+
                 //button function for deleting selected wagon
                 BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
                     @Override
@@ -233,10 +235,11 @@ public class Main extends Application {
         //Create list view and title of the list for train
         ListView<String> TrainList = new ListView<String>();
         ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
-        ArrayList<Train> trainListDieVolgensTimNietUitDeDatabaseKomt = new ArrayList<>();
-        trainListDieVolgensTimNietUitDeDatabaseKomt = tdao.findAllTrains();
-        for(int i=1; i<trainListDieVolgensTimNietUitDeDatabaseKomt.size(); i++){
-            TrainItems.add(trainListDieVolgensTimNietUitDeDatabaseKomt.get(i).getName());
+        ArrayList<Train> trainList = new ArrayList<>();
+        trainList = tdao.findAllTrains();
+        for(Train i: trainList){
+            String value = i.getTrainID() + " "+ i.getName();
+            TrainItems.add(value);
        }
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
@@ -256,8 +259,17 @@ public class Main extends Application {
                 WagonList.setDisable(false);
                 
                 //test select
+                String[] splitcheck = newValue.split(" ",2);
+                Train selectedTrain = tdao.findTrain(Integer.parseInt(splitcheck[0]));
+                ArrayList<Wagon> wagonslist = wtdao.getWagonFromTrain(selectedTrain);
+                WagonItems.clear();
+                for (Wagon i: wagonslist) {
+                    String value = i.getWagonID() + " "+ i.getName();
+                    WagonItems.add(value);
+                }
+
                 System.out.println("ListView selection TRAIN changed from oldValue = " 
-                        + oldValue + " to newValue = " + newValue);
+                        + oldValue + " to newValue = " + splitcheck[1]);
                 
                 //Button function for deleting selected train
                 BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
