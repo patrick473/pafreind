@@ -55,8 +55,43 @@ public class WagonTypeDAO extends BaseDAO {
 		}
 		return wagontypelist;
 	}
+    public Wagon findWagon(Integer wagonID){
+        List<Wagon> wagons =findAllWagonTypes("select * from wagontype where \"wagonID\" = "+ wagonID);
+        Wagon wagon = wagons.get(0);
+        return wagon;
+    }
+    
+    public int getWagonSeats(Integer wagonid) {
+    	int result = 0;
+    	try {
+			Connection myConn = BaseDAO.getConnection();
 
-	public List<Wagon> selectAllWagonTypes(){
+			PreparedStatement pstmt = myConn.prepareStatement("SELECT amountofseats FROM wagontype WHERE \"wagonID\" = ?");
+			pstmt.setInt(1, wagonid);
+			pstmt.executeQuery();
+
+			ResultSet rs = pstmt.getResultSet();
+			while (rs.next()) {
+				String seats = rs.getString("amountofseats");
+				result = Integer.parseInt(seats);
+
+			}
+
+			
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+    	return result;
+    }
+    
+    public Wagon findWagonByName(String name ){
+        List<Wagon> wagons =findAllWagonTypes("select * from wagon where name = "+ name);
+        Wagon wagon = wagons.get(0);
+        return wagon;
+    }
+
+
+    public List<Wagon> selectAllWagonTypes(){
 	    return findAllWagonTypes("select * from wagontype");
     }
     public Wagon selectWagon(Integer wagonID){
