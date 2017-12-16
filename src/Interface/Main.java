@@ -54,7 +54,7 @@ public class Main extends Application {
     	TrainDAO tdao = new TrainDAO();
     	WagonTrainDAO wtdao = new WagonTrainDAO();
     	WagonTypeDAO wdao = new WagonTypeDAO();
-        Train selectedTrain = null;
+
     	
 
 
@@ -195,9 +195,10 @@ public class Main extends Application {
             }
         });
 
-        
+
         //Create list view and title of the list for wagon
         ListView<String> WagonList = new ListView<String>();
+        ListView<String> TrainList = new ListView<String>();
         ObservableList<String> WagonItems = FXCollections.observableArrayList(); // PUT WAGON NAMES OF SELECTED TRAIN HERE <----------------------
 
 
@@ -209,32 +210,12 @@ public class Main extends Application {
         WagonList.setDisable(true);
         grid.add(WagonListL, 4, 37);
         grid.add(WagonList, 4, 38, 20, 1);
-        
+
         //List select listner for wagon
-        WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
-            	
-            	//test select
-                System.out.println("ListView selection WAGON changed from oldValue = "
-                        + oldValue + " to newValue = " + newValueWagon);
 
-
-
-
-                //button function for deleting selected wagon
-                BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {                 	 
-                    @Override
-                    public void handle(ActionEvent e) {
-                        //Wat moet Delete Wagon button doen??? <-----------------------------------------------
-                    }
-                });
-                
-            }
-        });
         
         //Create list view and title of the list for train
-        ListView<String> TrainList = new ListView<String>();
+
         ObservableList<String> TrainItems =FXCollections.observableArrayList (); //PUT TRAIN NAMES HERE <-------------------------------------
 
         ArrayList<String> selecteditems = refreshtrainList();
@@ -305,7 +286,38 @@ public class Main extends Application {
                         //wdao.addWagonTrain(//TRAIN OBJECT HERE, WagonObject);
                     }
                 });
-                
+                WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagon) {
+                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitcheck[0]));
+                        //test select
+                        if (WagonItems.size() >0) {
+
+                            System.out.println("ListView selection WAGON changed from oldValue = "
+                                    + oldValue + " to newValue = " + newValueWagon);
+
+                            String[] splitcheck = newValueWagon.split(" ", 2);
+                        }
+
+                        //button function for deleting selected wagon
+                        BtnWagonDelete.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+                                wtdao.deleteWagonTrain(selectedTrain,selectedWagon);
+                                WagonItems.clear();
+                                ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
+
+                                for (String i : selecteditems
+                                        ) {
+                                    WagonItems.add(i);
+
+                                }
+                            }
+                        });
+
+                    }
+                });
             }
         });
         
@@ -335,7 +347,18 @@ public class Main extends Application {
         ArrayList<String> TrainItems = new ArrayList<>();
         ArrayList<Train> trainList = tdao.findAllTrains();
         for(Train i: trainList){
+
             String value = i.getTrainID() + " "+ i.getName();
+            TrainItems.add(value);
+        }
+        return TrainItems;
+    }
+    public ArrayList<String> refreshWagonList(Train train){
+        WagonTrainDAO wdao = new WagonTrainDAO();
+        ArrayList<String> TrainItems = new ArrayList<>();
+        ArrayList<Wagon> trainList = wdao.getWagonFromTrain(train);
+        for(Wagon i: trainList){
+            String value = i.getWagonID() + " "+ i.getName();
             TrainItems.add(value);
         }
         return TrainItems;
