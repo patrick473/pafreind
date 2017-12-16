@@ -151,26 +151,14 @@ public class Main extends Application {
         HBox HbBtnTrainDelete =  new HBox(10);
         HbBtnTrainDelete.getChildren().add(BtnTrainDelete);
         grid.add(HbBtnTrainDelete, 1, 39);
-        
-        
-        //Btntrain function
-        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-            	String TrainNameInput = TrainNameT.getText();
-            	String LocomotiveNameInput = LocomotiveNameT.getText();
 
-            	Train TrainObject = new Train(TrainNameInput);
-            	tdao.createTrain(TrainObject, LocomotiveNameInput);
-
-                //Wat moet add trein button doen??? <----------------------------------------------------
-                Train train = new Train(TrainNameInput);
-                tdao.createTrain(train,LocomotiveNameInput);
-
-            }
-        });
+        //Button to add a wagon to a train
+        Button BtnAddWagonToTrain = new Button ("Add Wagon to Train");
+        HBox HbBtnAddWagonToTrain =  new HBox(10);
+        HbBtnAddWagonToTrain.getChildren().add(BtnAddWagonToTrain);
+        grid.add(HbBtnAddWagonToTrain, 5, 39);
         
+
         //Blocks any letters from getting in the WagonSeatT input field
         UnaryOperator<Change> integerFilter = change -> {
             String newText = change.getControlNewText();
@@ -185,16 +173,7 @@ public class Main extends Application {
             new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
 
 
-        //Button function of BtnWagon
-        BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
-            @Override
-            public void handle(ActionEvent e) {
-            	String WagonNameInput = WagonNameT.getText();
-            	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
-            	Wagon wagon = new Wagon(WagonNameInput,WagonSeatInput);
-                wdao.addWagonType(wagon);
-            }
-        });
+
 
 
         //Create list view and title of the list for wagon
@@ -345,6 +324,21 @@ public class Main extends Application {
                         });
 
                     }
+
+                });
+
+                BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        //Wat moet Delete Wagon button doen??? <-----------------------------------------------
+
+
+                        for (String i : selecteditems
+                                ) {
+                            WagonItems.add(i);
+
+                        }
+                    }
                 });
             }
 
@@ -358,7 +352,45 @@ public class Main extends Application {
 
             }
         });
+        //Btntrain function
+        BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent e) {
+                String TrainNameInput = TrainNameT.getText();
+                String LocomotiveNameInput = LocomotiveNameT.getText();
+
+                Train TrainObject = new Train(TrainNameInput);
+                tdao.createTrain(TrainObject, LocomotiveNameInput);
+                TrainItems.clear();
+                ArrayList<String> selecteditems = refreshtrainList();
+
+                for (String i : selecteditems
+                        ) {
+                    TrainItems.add(i);
+
+                }
+
+            }
+        });
+        //Button function of BtnWagon
+        BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String WagonNameInput = WagonNameT.getText();
+                Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
+                Wagon wagon = new Wagon(WagonNameInput,WagonSeatInput);
+                wdao.addWagonType(wagon);
+                WagonTypeItems.clear();
+                ArrayList<String> selecteditems = refreshWagonTypeList();
+
+                for (String i : selecteditems
+                        ) {
+                    WagonTypeItems.add(i);
+
+                }
+            }
+        });
 
 
         //create locomotive
