@@ -38,13 +38,14 @@ public class ConsoleInterface {
 
                     Wagon wagon = new Wagon(splitcheck[2], 20);
                     wdao.addWagonType(wagon);
-                } else if (s.startsWith("add wagon ") && "to".equals(splitcheck[3])) {
+                } else if (s.startsWith("add wagon ")  && splitcheck.length > 3) {
                     // adding existing wagon to existing train
-                    int trainsrch = Integer.parseInt(splitcheck[4]);
-                    int wagonsrch = Integer.parseInt(splitcheck[2]);
-                    wtdao.addWagonTrain(tdao.findTrain(trainsrch), wdao.findWagon(wagonsrch));
-
-                } else if (s.startsWith("getnumseats train ")) {
+                    if ("to".equals(splitcheck[3])) {
+                        int trainsrch = Integer.parseInt(splitcheck[4]);
+                        int wagonsrch = Integer.parseInt(splitcheck[2]);
+                        wtdao.addWagonTrain(tdao.findTrain(trainsrch), wdao.findWagon(wagonsrch));
+                    }
+                } else if (s.startsWith("getnumseats train ") ) {
                     // get number of seats of existing train
                     int seatcount = Integer.parseInt(splitcheck[2]);
                     System.out.println(tdao.getTrainSeats(seatcount));
@@ -60,17 +61,18 @@ public class ConsoleInterface {
                     tdao.deleteTrain(trainID);
 
 
-                } else if ("remove".equals(splitcheck[0]) && "from".equals(splitcheck[2])) {
-                   int wagondeletesrch = Integer.parseInt(splitcheck[1]);
-                   int traindeletesrch = Integer.parseInt(splitcheck[3]);
-                   Train train = tdao.findTrain(traindeletesrch);
-                   Wagon wagon = wdao.findWagon(wagondeletesrch);
-                    wtdao.deleteWagonTrain(train,wagon);
-                    // remove wagon from train
-
+                } else if ("remove".equals(splitcheck[0]) && splitcheck.length > 2 ) {
+                    if ("from".equals(splitcheck[2])) {
+                        int wagondeletesrch = Integer.parseInt(splitcheck[1]);
+                        int traindeletesrch = Integer.parseInt(splitcheck[3]);
+                        Train train = tdao.findTrain(traindeletesrch);
+                        Wagon wagon = wdao.findWagon(wagondeletesrch);
+                        wtdao.deleteWagonTrain(train, wagon);
+                        // remove wagon from train
+                    }
                 }
-            } catch (ArrayIndexOutOfBoundsException aioobe) {
-                aioobe.printStackTrace();
+            } catch (Exception exc) {
+                exc.printStackTrace();
             }
             s = sc.nextLine();
 
