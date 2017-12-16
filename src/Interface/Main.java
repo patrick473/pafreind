@@ -2,6 +2,7 @@ package Interface;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 import Domain.Train;
@@ -217,7 +218,7 @@ public class Main extends Application {
         WagonTypeList.setPrefHeight(200);
         Label WagonTypeListL = new Label("Add wagon to selected train");
         WagonTypeListL .setFont(Font.font("Tahoma", FontWeight.BOLD , 12));
-        WagonTypeList.setDisable(true);
+
         grid.add(WagonTypeListL, 5, 37);
         grid.add(WagonTypeList, 5, 38, 2, 1);
         //Create list view and title of the list for train
@@ -229,6 +230,11 @@ public class Main extends Application {
         for (String i: selecteditems
                 ) {
             TrainItems.add(i);
+        }
+        ArrayList<String> wagontypes = refreshWagonTypeList();
+        for (String i: wagontypes
+                ) {
+            WagonTypeItems.add(i);
         }
         TrainList.setItems(TrainItems);
         TrainList.setPrefHeight(200);
@@ -329,7 +335,7 @@ public class Main extends Application {
                     }
                 });
             }
-            
+
         });
 
         WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -375,15 +381,26 @@ public class Main extends Application {
         }
         return TrainItems;
     }
+    public ArrayList<String> refreshWagonTypeList(){
+        WagonTypeDAO wdao = new WagonTypeDAO();
+        ArrayList<String> WagontypeItems = new ArrayList<>();
+        List<Wagon> wagonTypeList = wdao.selectAllWagonTypes();
+        for(Wagon i: wagonTypeList){
+
+            String value = i.getWagonID() + " "+ i.getName();
+            WagontypeItems.add(value);
+        }
+        return WagontypeItems;
+    }
     public ArrayList<String> refreshWagonList(Train train){
         WagonTrainDAO wdao = new WagonTrainDAO();
-        ArrayList<String> TrainItems = new ArrayList<>();
-        ArrayList<Wagon> trainList = wdao.getWagonFromTrain(train);
-        for(Wagon i: trainList){
+        ArrayList<String> WagonItems = new ArrayList<>();
+        ArrayList<Wagon> WagonList = wdao.getWagonFromTrain(train);
+        for(Wagon i: WagonList){
             String value = i.getWagonID() + " "+ i.getName();
-            TrainItems.add(value);
+            WagonItems.add(value);
         }
-        return TrainItems;
+        return WagonItems;
     }
     //Lift of for application
     public static void main(String[] args) {
