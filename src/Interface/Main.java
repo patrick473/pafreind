@@ -431,7 +431,7 @@ public class Main extends Application {
                             @Override
                             public void handle(ActionEvent e) {
                                 //Wat moet Delete Wagon button doen??? <-----------------------------------------------
-
+                                System.out.println("test");
                                 wtdao.deleteWagonTrain(selectedTrain,selectedWagon);
                                 WagonItems.clear();
                                 ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
@@ -497,7 +497,7 @@ public class Main extends Application {
                         BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-
+                                System.out.println();
                                Wagon wagontype = wdao.findWagon(Integer.parseInt(splitstringcheck[0]));
                                     wtdao.addWagonTrain(selectedTrain,wagontype);
                                     WagonItems.clear();
