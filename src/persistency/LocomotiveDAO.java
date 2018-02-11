@@ -16,7 +16,7 @@ import static Domain.Locomotive.LocomotiveBuilder.aLocomotive;
 
 public class LocomotiveDAO extends BaseDAO {
 
-	public Locomotive addLocomitive(int id, String loconame) {
+	public void addLocomitive(int id, String loconame) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
@@ -33,7 +33,7 @@ public class LocomotiveDAO extends BaseDAO {
 		catch (Exception exc) {
 			exc.printStackTrace();
 		}
-        return findLatestLocomotive();
+
 	}
 
     private ArrayList<Locomotive> getLocomotives(String query) {

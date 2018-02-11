@@ -15,22 +15,31 @@ public class TrainDAO extends BaseDAO {
 
 	// master select
 	private ArrayList<Train> getTrains(String query) {
+	    System.out.println(query);
 		ArrayList<Train> results = new ArrayList<Train>();
 		try (Connection con = super.getConnection()) {
 			Statement stmt = con.createStatement();
 			ResultSet dbresultSet = stmt.executeQuery(query);
+
 			while (dbresultSet.next()) {
+
 				ArrayList<Component> components = new ArrayList<Component>();
-				Integer trainID = dbresultSet.getInt("trainID");
+				Integer trainID = dbresultSet.getInt("trainid");
 				String name = dbresultSet.getString("name");
-				Locomotive locomotive = ldao.findLocomotive(trainID);
-				components.add(locomotive);
+				try {
+                    Locomotive locomotive = ldao.findLocomotive(trainID);
+                    components.add(locomotive);
+                }
+                catch(Exception exc){
+				    exc.printStackTrace();
+                }
 
 				Train train = aTrain()
                         .setTrainID(trainID)
                         .setName(name)
                         .setComponents(components)
                         .build();
+				System.out.println(train);
 				results.add(train);
 
 			}
@@ -42,9 +51,7 @@ public class TrainDAO extends BaseDAO {
 
 	// select statements
 	public Train findTrain(Integer trainID) {
-		ArrayList<Train> trains = getTrains("select * from train where trainid = " + trainID);
-		Train train = trains.get(0);
-		return train;
+		return getTrains("select * from train where trainid = " + trainID).get(0);
 	}
 
 	public Train findTrainByName(String name) {
@@ -60,27 +67,25 @@ public class TrainDAO extends BaseDAO {
 	}
 
 	public Train findLatestTrain() {
-		ArrayList<Train> trains = getTrains("SELECT * FROM train ORDER BY \"trainid\" DESC limit 1 ");
-		Train train = trains.get(0);
-		return train;
+
+		return getTrains("SELECT * FROM train ORDER BY trainid  DESC  ").get(0);
 	}
 
 	public void createTrain(String trainname, String loconame) {
 		try (Connection con = super.getConnection()) {
 
-			PreparedStatement pstmt = con
-					.prepareStatement("INSERT into train (name,trainID) VALUES(?,nextval('trainseq'))");
 
-			pstmt.setString(1, trainname);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("INSERT into train (name,trainID) VALUES('"+trainname+"',nextval('trainseq'))");
 
-			pstmt.executeUpdate();
-			Train t = findLatestTrain();
 
-			Locomotive tloco = ldao.addLocomitive(t.getTrainID(), loconame);
-			t.addComponent(tloco);
+
+
+
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
+        ldao.addLocomitive(findLatestTrain().getTrainID(), loconame);
 
 	}
 

@@ -48,6 +48,7 @@ import persistency.WagonTypeDAO;
 
 
 
+
 public class Main extends Application {
 
     @Override
@@ -295,6 +296,35 @@ public class Main extends Application {
 
         BtnAddWagonToTrain.setDisable(true);
         //List select listner for train
+
+
+        //Button function of BtnWagon
+        BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                int wagontypeseats ;
+                System.out.println("ugiui");
+                if (WagonSeatT.getText() == null || WagonSeatT.getText() == "0"){
+                    wagontypeseats = 20;
+                }
+                else {
+                    wagontypeseats = Integer.parseInt(WagonSeatT.getText());
+                }
+                Wagon WagonObject = wc.createWagon(WagonNameT.getText(), wagontypeseats);
+                ArrayList<String> wtitems = refreshWagonTypeList();
+
+
+                for (String i : wtitems
+                        ) {
+                    WagonItems.add(i);
+
+                }
+            }
+        });
+
+        //List select listner for wagon
+
+
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -385,18 +415,6 @@ public class Main extends Application {
 
 
                 });
-                
-                //Button function of BtnWagon
-                BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
-                    @Override
-                    public void handle(ActionEvent e) {
-
-                    	Wagon WagonObject = wc.createWagon(WagonNameT.getText(), Integer.parseInt(WagonSeatT.getText()));
-
-                    }
-                });
-
-                //List select listner for wagon
 
 
                 WagonList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -553,12 +571,14 @@ public class Main extends Application {
 
 
         //Btntrain function
+
         BtnTrain.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
 
                 tc.createTrain(TrainNameT.getText(), LocomotiveNameT.getText());
+
                 TrainItems.clear();
                 ArrayList<String> selecteditems = refreshtrainList();
 
@@ -595,6 +615,7 @@ public class Main extends Application {
                 WagontypeItems.add(value);
             }
         }
+
         return WagontypeItems;
     }
     public ArrayList<String> refreshWagonList(Train train){

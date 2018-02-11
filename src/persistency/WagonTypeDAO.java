@@ -20,6 +20,7 @@ public class WagonTypeDAO extends BaseDAO {
 			PreparedStatement pstmt = myConn.prepareStatement(
 					"INSERT into wagontype(name, amountofseats, \"wagonID\") VALUES(?,?,nextval('wagonseq'))");
 			pstmt.setString(1, name);
+
 			pstmt.setInt(2, amountofseats);
 
 			pstmt.executeUpdate();
