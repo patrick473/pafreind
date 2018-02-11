@@ -11,78 +11,70 @@ import Domain.Component;
 import Domain.Locomotive;
 import Domain.Train;
 
+import static Domain.Locomotive.LocomotiveBuilder.aLocomotive;
 
 
 public class LocomotiveDAO extends BaseDAO {
 
-	public void addLocomitive(Train train, Component locomotive) {
+	public Locomotive addLocomitive(int id, String loconame) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
 			PreparedStatement pstmt = myConn.prepareStatement(
 					"INSERT into locomotive(\"trainID\", \"Name\", \"locomotiveID\") VALUES(?,?,nextval('locoseq'))");
-			pstmt.setInt(1, train.getTrainID());
-			pstmt.setString(2, locomotive.getName());
+			pstmt.setInt(1, id);
+			pstmt.setString(2, loconame);
 
 			pstmt.executeUpdate();
 			myConn.close();
+
 		}
 
 		catch (Exception exc) {
 			exc.printStackTrace();
 		}
-
+        return findLatestLocomotive();
 	}
-	
+
+    private ArrayList<Locomotive> getLocomotives(String query) {
+        ArrayList<Locomotive> results = new ArrayList<Locomotive>();
+        try (Connection con = super.getConnection()) {
+            Statement stmt = con.createStatement();
+            ResultSet dbresultSet = stmt.executeQuery(query);
+            while (dbresultSet.next()) {
+                ArrayList<Component> components = new ArrayList<Component>();
+                Integer locoID = dbresultSet.getInt("locomotiveid");
+                String name = dbresultSet.getString("name");
+
+
+
+                Locomotive locomotive = aLocomotive()
+                        .setLocomotiveID(locoID)
+                        .setName(name)
+                        .build();
+                results.add(locomotive);
+
+            }
+        } catch ( Exception exc) {
+            exc.printStackTrace();
+        }
+        return results;
+    }
 	public List<Locomotive> findAlleLocomotives() {
-		List<Locomotive> locomotivelist = new ArrayList<Locomotive>();
-		try {
-			Connection myConn = BaseDAO.getConnection();
 
-			Statement myStmt = myConn.createStatement();
-
-			ResultSet myRs = myStmt.executeQuery("select * from locomotive");
-
-			while (myRs.next()) {
-				Locomotive s = new Locomotive(myRs.getString("name"),
-						myRs.getInt("locomotiveid"));
-				locomotivelist.add(s);
-				
-				
-			}
-			myConn.close();
-
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-		return locomotivelist;
+		return getLocomotives("select * from locomotive");
 	}
 	
 	public Locomotive findLocomotive(int trainid) {
-		Locomotive p = null;
-		try {
-			Connection myConn = BaseDAO.getConnection();
 
-			PreparedStatement pstmt = myConn.prepareStatement("SELECT * FROM locomotive WHERE \"trainID\" = ?");
-			pstmt.setInt(1, trainid);
-			pstmt.executeQuery();
-
-			ResultSet rs = pstmt.getResultSet();
-
-			while (rs.next()) {
-
-				String name1 = rs.getString("name");
-				int locomotiveid1 = rs.getInt("locomotiveid");
-				Locomotive locomotive = new Locomotive( name1, locomotiveid1);
-
-				p = locomotive;
-			}
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-		return p;
+		return getLocomotives("SELECT * FROM locomotive WHERE \"trainID\" = "+trainid).get(0);
 	}
-	
+    public Locomotive findLatestLocomotive() {
+
+
+        return getLocomotives("SELECT * FROM locomitve ORDER BY \"trainid\" DESC limit 1 ").get(0);
+    }
+
 	public void deleteLocomotive(Train train) {
 		try {
 			Connection myConn = BaseDAO.getConnection();

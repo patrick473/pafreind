@@ -5,19 +5,8 @@ public class Wagon extends Component {
     Integer amountOfSeats;
     Integer wagonID;
 
-    public Wagon(String name, Integer amountOfSeats) {
-        super(name);
-        if (amountOfSeats== 0){ amountOfSeats=20;}
-        this.amountOfSeats = amountOfSeats;
-    }
 
-    public Wagon(String name, Integer amountOfSeats, Integer wagonID) {
-        super(name);
 
-        if (amountOfSeats== 0){ amountOfSeats=20;}
-        this.amountOfSeats = amountOfSeats;
-        this.wagonID = wagonID;
-    }
 
     public Integer getAmountOfSeats() {
         return amountOfSeats;
@@ -43,5 +32,41 @@ public class Wagon extends Component {
                 ", wagonID=" + wagonID +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static final class WagonBuilder {
+        protected String name;
+        Integer amountOfSeats;
+        Integer wagonID;
+
+        private WagonBuilder() {
+        }
+
+        public static WagonBuilder aWagon() {
+            return new WagonBuilder();
+        }
+
+        public WagonBuilder setAmountOfSeats(Integer amountOfSeats) {
+            this.amountOfSeats = amountOfSeats;
+            return this;
+        }
+
+        public WagonBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public WagonBuilder setWagonID(Integer wagonID) {
+            this.wagonID = wagonID;
+            return this;
+        }
+
+        public Wagon build() {
+            Wagon wagon = new Wagon();
+            wagon.setAmountOfSeats(amountOfSeats);
+            wagon.setName(name);
+            wagon.setWagonID(wagonID);
+            return wagon;
+        }
     }
 }

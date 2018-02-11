@@ -13,12 +13,12 @@ import Domain.Wagon;
 public class WagonTrainDAO extends BaseDAO {
 	WagonTypeDAO wdao = new WagonTypeDAO();
 
-	public void addWagonTrain(Train train, Wagon wagon) {
+	public void addWagonTrain(int train, int wagon) {
 		try {
 			Connection myConn = BaseDAO.getConnection();
 
 			Statement pstmt = myConn.createStatement();
-			String query = "INSERT into wagontrain(\"trainID\", \"wagonID\" ,\"wagontrainID\") VALUES("+ train.getTrainID()+","+ wagon.getWagonID()+",nextval('wagontrainseq'))";
+			String query = "INSERT into wagontrain(\"trainID\", \"wagonID\" ,\"wagontrainID\") VALUES("+ train+","+ wagon+",nextval('wagontrainseq'))";
 			pstmt.executeUpdate(query);
 			myConn.close();
 		}
@@ -28,11 +28,11 @@ public class WagonTrainDAO extends BaseDAO {
 		}
 
 	}
-    private ArrayList<Integer> getWagontrainInts(Train train,Wagon wagon){
+    private ArrayList<Integer> getWagontrainInts(int train,int wagon){
         ArrayList<Integer> results = new ArrayList<Integer>();
         try (Connection con = super.getConnection()){
             Statement stmt = con.createStatement();
-            ResultSet dbresultSet = stmt.executeQuery("select * from wagontrain where \"trainID\" ="+train.getTrainID()+"and \"wagonID\"="+ wagon.getWagonID());
+            ResultSet dbresultSet = stmt.executeQuery("select * from wagontrain where \"trainID\" ="+train+"and \"wagonID\"="+ wagon);
             while (dbresultSet.next()){
                Integer wagontrainid = dbresultSet.getInt("wagontrainID");
 
@@ -48,10 +48,10 @@ public class WagonTrainDAO extends BaseDAO {
         }
         return results;
     }
-	public void deleteWagonTrain(Train train, Wagon wagon) {
+	public void deleteWagonTrain(int trainid, int wagonid) {
 		try (Connection con = super.getConnection()){
 
-            ArrayList<Integer> wagons= getWagontrainInts(train, wagon);
+            ArrayList<Integer> wagons= getWagontrainInts(trainid, wagonid);
             Integer deletablewagon = wagons.get(0);
 			Statement pstmt = con.createStatement();
 			String query = "DELETE FROM wagontrain WHERE \"wagontrainID\" = "+ deletablewagon ;

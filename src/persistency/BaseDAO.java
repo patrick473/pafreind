@@ -18,9 +18,9 @@ public class BaseDAO {
 
     }
     public static Connection getConnection(){
-        final String url = "jdbc:postgresql://localhost/pafreind";
-        final String user = "postgres";
-        final String password = "wachtwoord";
+        final String url = "jdbc:postgresql://localhost/postgres";
+        final String user = "root";
+        final String password = "password";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, password);

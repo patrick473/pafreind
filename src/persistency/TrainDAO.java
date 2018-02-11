@@ -7,6 +7,8 @@ import Domain.Train;
 import java.sql.*;
 import java.util.ArrayList;
 
+import static Domain.Train.TrainBuilder.aTrain;
+
 public class TrainDAO extends BaseDAO {
 
 	LocomotiveDAO ldao = new LocomotiveDAO();
@@ -24,12 +26,16 @@ public class TrainDAO extends BaseDAO {
 				Locomotive locomotive = ldao.findLocomotive(trainID);
 				components.add(locomotive);
 
-				Train train = new Train(trainID, components, name);
+				Train train = aTrain()
+                        .setTrainID(trainID)
+                        .setName(name)
+                        .setComponents(components)
+                        .build();
 				results.add(train);
 
 			}
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
+		} catch (Exception exc) {
+			exc.printStackTrace();
 		}
 		return results;
 	}
@@ -59,24 +65,23 @@ public class TrainDAO extends BaseDAO {
 		return train;
 	}
 
-	public Train createTrain(Train t, String loconame) {
+	public void createTrain(String trainname, String loconame) {
 		try (Connection con = super.getConnection()) {
 
 			PreparedStatement pstmt = con
 					.prepareStatement("INSERT into train (name,trainID) VALUES(?,nextval('trainseq'))");
 
-			pstmt.setString(1, t.getName());
+			pstmt.setString(1, trainname);
 
 			pstmt.executeUpdate();
-			t = findLatestTrain();
+			Train t = findLatestTrain();
 
-			Component tloco = new Locomotive(loconame);
-			ldao.addLocomitive(t, tloco);
+			Locomotive tloco = ldao.addLocomitive(t.getTrainID(), loconame);
 			t.addComponent(tloco);
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
-		return t;
+
 	}
 
 	public int getTrainSeats(Integer trainid) {

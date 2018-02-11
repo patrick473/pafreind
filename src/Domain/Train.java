@@ -8,15 +8,8 @@ public class Train  {
     ArrayList<Component> components;
     String name;
 
-    public Train(String name) {
-        this.name = name;
-    }
 
-    public Train(Integer trainID, ArrayList<Component> components, String name) {
-        this.trainID = trainID;
-        this.components = components;
-        this.name = name;
-    }
+
 
     public Integer getTrainID() {
         return trainID;
@@ -41,6 +34,8 @@ public class Train  {
     public void setComponents(ArrayList<Component> components) {
         this.components = components;
     }
+
+
     public void addComponent(Component component){
         components.add(component);
     }
@@ -61,5 +56,42 @@ public class Train  {
                 ", components=" + components +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+
+    public static final class TrainBuilder {
+        Integer trainID;
+        ArrayList<Component> components;
+        String name;
+
+        private TrainBuilder() {
+        }
+
+        public static TrainBuilder aTrain() {
+            return new TrainBuilder();
+        }
+
+        public TrainBuilder setTrainID(Integer trainID) {
+            this.trainID = trainID;
+            return this;
+        }
+
+        public TrainBuilder setComponents(ArrayList<Component> components) {
+            this.components = components;
+            return this;
+        }
+
+        public TrainBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Train build() {
+            Train train = new Train();
+            train.setTrainID(trainID);
+            train.setComponents(components);
+            train.setName(name);
+            return train;
+        }
     }
 }

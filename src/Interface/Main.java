@@ -7,6 +7,10 @@ import java.util.function.UnaryOperator;
 
 import Domain.Train;
 import Domain.Wagon;
+import controller.LocomotiveController;
+import controller.TrainController;
+import controller.WagonController;
+import controller.WagonTrainController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -37,7 +41,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
-import persistency.LocomotiveDAO;
 import persistency.TrainDAO;
 import persistency.WagonTrainDAO;
 import persistency.WagonTypeDAO;
@@ -50,11 +53,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-    	
-    	LocomotiveDAO ldao = new LocomotiveDAO();
-    	TrainDAO tdao = new TrainDAO();
-    	WagonTrainDAO wtdao = new WagonTrainDAO();
-    	WagonTypeDAO wdao = new WagonTypeDAO();
+
+        WagonController wc = new WagonController();
+        TrainController tc = new TrainController();
+        LocomotiveController lc = new LocomotiveController();
+        WagonTrainController wtc = new WagonTrainController();
 
         String UrlWagon1 = "https://us.123rf.com/450wm/studioworkstock/studioworkstock1611/studioworkstock161100145/67173618-railway-wagon-isolated-on-white-background-vector-illustration-railroad-transport-design-element-sid.jpg?ver=6";
         String UrlLoco = "https://orig00.deviantart.net/96c0/f/2014/343/2/0/thomas_the_tank_engine_by_danielarkansanengine-d7aicax.png";
@@ -290,7 +293,7 @@ public class Main extends Application {
         ImageViewWagon7.setVisible(false); //<--------- hide wagon if no wagon exists.
         grid.add(ImageViewWagon7, WagonLocoPicCol+3, WagonLocoPicRow+1); // WagonLocoPicCol+number --> number = The number of the wagon order? (this is the first wagon so number 1)
 
-
+        BtnAddWagonToTrain.setDisable(true);
         //List select listner for train
         TrainList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -318,7 +321,7 @@ public class Main extends Application {
 
                 String[]  splitstring = newValue.split(" ", 2);
 
-                   Train selectedTrain = tdao.findTrain(Integer.parseInt(splitstring[0]));
+                   Train selectedTrain = tc.findTrain(Integer.parseInt(splitstring[0]));
 
                 WagonItems.clear();
                 for (String i : refreshWagonList(selectedTrain)
@@ -326,7 +329,7 @@ public class Main extends Application {
                     WagonItems.add(i);
 
                 }
-
+                BtnAddWagonToTrain.setDisable(true);
                 Integer listSize = WagonItems.size();
                 ImageViewWagon1.setVisible(false);
                 ImageViewWagon2.setVisible(false);
@@ -364,11 +367,11 @@ public class Main extends Application {
                 BtnTrainDelete.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        tdao.deleteTrain(selectedTrain.getTrainID());
+                        tc.deleteTrain(selectedTrain.getTrainID());
 
                         try{TrainItems.clear();}
                         catch (Exception exc){
-
+                                exc.printStackTrace();
                         }
                         ArrayList<String> selecteditems = refreshtrainList();
 
@@ -387,10 +390,9 @@ public class Main extends Application {
                 BtnWagon.setOnAction(new EventHandler<ActionEvent>() { 
                     @Override
                     public void handle(ActionEvent e) {
-                    	String WagonNameInput = WagonNameT.getText();
-                    	Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
-                    	Wagon WagonObject = new Wagon(WagonNameInput, WagonSeatInput);
-                        //wdao.addWagonTrain(//TRAIN OBJECT HERE, WagonObject);
+
+                    	Wagon WagonObject = wc.createWagon(WagonNameT.getText(), Integer.parseInt(WagonSeatT.getText()));
+
                     }
                 });
 
@@ -415,7 +417,7 @@ public class Main extends Application {
 
 
                         String[] splitcheck = newValueWagon.split(" ", 2);
-                        Wagon selectedWagon = wdao.findWagon(Integer.parseInt(splitcheck[0]));
+                        Wagon selectedWagon = wc.findWagon(Integer.parseInt(splitcheck[0]));
                         //test select
 
 
@@ -432,7 +434,7 @@ public class Main extends Application {
                             public void handle(ActionEvent e) {
                                 //Wat moet Delete Wagon button doen??? <-----------------------------------------------
                                 System.out.println("test");
-                                wtdao.deleteWagonTrain(selectedTrain,selectedWagon);
+                                wtc.deleteWagonTrain(selectedTrain.getTrainID(),selectedWagon.getWagonID());
                                 WagonItems.clear();
                                 ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
 
@@ -480,7 +482,7 @@ public class Main extends Application {
                 WagonTypeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValueWagonType) {
-
+                        BtnAddWagonToTrain.setDisable(false);
 
                         if (newValueWagonType == null){
                             newValueWagonType= "1 Wagon";
@@ -497,10 +499,9 @@ public class Main extends Application {
                         BtnAddWagonToTrain.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                System.out.println();
-                               Wagon wagontype = wdao.findWagon(Integer.parseInt(splitstringcheck[0]));
-                                    wtdao.addWagonTrain(selectedTrain,wagontype);
-                                    WagonItems.clear();
+
+                                wtc.createWagonTrain(selectedTrain.getTrainID(),wc.findWagon(Integer.parseInt(splitstringcheck[0])).getWagonID());
+                                WagonItems.clear();
                                 ArrayList<String> selecteditems = refreshWagonList(selectedTrain);
 
                                 for (String i : selecteditems
@@ -556,11 +557,8 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                String TrainNameInput = TrainNameT.getText();
-                String LocomotiveNameInput = LocomotiveNameT.getText();
 
-                Train TrainObject = new Train(TrainNameInput);
-                tdao.createTrain(TrainObject, LocomotiveNameInput);
+                tc.createTrain(TrainNameT.getText(), LocomotiveNameT.getText());
                 TrainItems.clear();
                 ArrayList<String> selecteditems = refreshtrainList();
 
@@ -570,25 +568,6 @@ public class Main extends Application {
 
                 }
 
-            }
-        });
-        //Button function of BtnWagon
-        BtnWagon.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-
-                String WagonNameInput = WagonNameT.getText();
-                Integer WagonSeatInput = Integer.parseInt(WagonSeatT.getText());
-                Wagon wagon = new Wagon(WagonNameInput,WagonSeatInput);
-                wdao.addWagonType(wagon);
-                WagonTypeItems.clear();
-                ArrayList<String> selecteditems = refreshWagonTypeList();
-
-                for (String i : selecteditems
-                        ) {
-                    WagonTypeItems.add(i);
-
-                }
             }
         });
 
